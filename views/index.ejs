@@ -3,9 +3,25 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="/javascripts/vue.js"></script>
+    <!-- this is uesd when the project is over -->
+    <!-- <script src="/javascripts/vue.min.js"></script> -->
   </head>
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+    <div id='test'>
+    	{{message}}
+    	{{cMessage}}
+    	<input type="button" value="+1" style="height=20px;width=100px;" v-on:click='plusOne'/>
+    	<input type="button" v-bind:value="'我为川普续'+computedMessage+'秒'" style="height=20px;width=100px;"/>
+    </div>
+
+
+
+
+    <!-- this is the bind scripts -->
+    <!-- 注意bind的js必须放在页面的最后 -->
+    <script src="/javascripts/bind/index.js"></script>
   </body>
 </html>
