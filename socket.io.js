@@ -49,9 +49,8 @@ io.on('connection', function(socket){
 		catch(err)
 		{
 			console.log(err);
+			socket.emit('error');
 		}
-
-
 		socket.emit('complete');
 	})
 });
