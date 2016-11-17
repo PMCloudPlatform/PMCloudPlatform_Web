@@ -26,12 +26,37 @@ var map = new mapboxgl.Map({
     center: [121.4339081, 31.0276681]
 });
 
+// Create a popup, but don't add it to the map yet.
+var popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false
+});
+
 var socket = io();
 
 var pointData = [];
 var index = 0;
 
 map.on('load', firstLoad);
+
+map.on('mousemove', function(e) {
+    var features = map.queryRenderedFeatures(e.point, { layers: ['polution'] });
+    // Change the cursor style as a UI indicator.
+    map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+
+    if (!features.length) {
+        popup.remove();
+        return;
+    }
+
+    var feature = features[0];
+
+    // Populate the popup and set its coordinates
+    // based on the feature found.
+    popup.setLngLat(feature.geometry.coordinates)
+        .setHTML(feature.properties.description)
+        .addTo(map);
+});
 
 socket.on('dataArrive', function(jsonData){
     // console.log(jsonData);
@@ -91,6 +116,7 @@ function firstLoad() {
             }
         }
     });
+
     socket.emit('requireData', index);
 }
 </script>

@@ -74,7 +74,10 @@ io.on('connection', function(socket){
 					        "type": "Point",
 					        "coordinates": [e.LOT, e.LAT]
 					    	},
-					    	"properties": {"size": e.PM}}
+					    	"properties": {
+					    		"size": e.PM,
+					    		"description": '<strong>PM2.5</strong><p>LOT:' + e.LOT.toString() + 'LAT:' + e.LAT.toString() + '</p><p>PM2.5:' + e.PM.toString() + '</p>'
+				    		}}
 						)
 					}
 				})
