@@ -31,14 +31,14 @@ var io = require('socket.io')(server);
  */
 
 io.on('connection', function(socket){
-  console.log('a user connected');
-  socket.on('disconnect', function(){
-    console.log('user disconnected');
-  });
-  
-  socket.on('senddata', function(jsonString){
+	console.log('a user connected');
+	socket.on('disconnect', function(){
+		console.log('user disconnected');
+	});
+
+	socket.on('senddata', function(jsonString){
 		console.log('receive data...');
-		console.log(jsonString);
+		// console.log(jsonString);
 		try
 		{
 			data = JSON.parse(jsonString);
@@ -48,9 +48,41 @@ io.on('connection', function(socket){
 		catch(err)
 		{
 			console.log(err);
-			socket.emit('error');
 		}
-		socket.emit('complete');
+	})
+
+	socket.on('requireData', function(index){
+		console.log('requiring data~~~');
+		var Data = [];
+		var speed = 50;
+		db.find({}, index*speed,speed, function(result){
+			// console.log(result);
+			// console.log(index);
+			if(result == undefined){
+				console.log('Error');
+			}
+			else if (result.length == 0){
+				console.log('Load finished');
+			}
+			else{
+				result.forEach(function(e){
+					if(e.LOT != undefined && e.LAT != undefined && e.PM != undefined){
+						// console.log(e.LOT);
+						Data.push({
+					        "type": "Feature",
+					        "geometry": {
+					        "type": "Point",
+					        "coordinates": [e.LOT, e.LAT]
+					    	},
+					    	"properties": {"size": e.PM}}
+						)
+					}
+				})
+				// console.log(Data);
+
+				socket.emit('dataArrive', JSON.stringify(Data));
+			}
+		});	
 	})
 });
 

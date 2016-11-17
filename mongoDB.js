@@ -20,12 +20,12 @@ dbClient = {
           console.log('Error:'+ err);
           return;
         }     
-        console.log(result);
+        // console.log(result);
         db.close();
       });
     });
   },
-  find: function(obj){
+  find: function(obj, lowerBound, count, callback){
     MongoClient.connect(DB_CONN_STR, function(err, db) {
       if(err)
       {
@@ -34,15 +34,18 @@ dbClient = {
       }
       console.log(DB_CONN_STR + "连接成功！");
       //连接到表  
-      var collection = db.collection('test');
-      collection.find(obj).toArray(function(err, result) {
+      var collection = db.collection('data');
+      // console.log(lowerBound);
+      // console.log(count);
+      collection.find({}).skip(lowerBound).limit(count).toArray(function(err, result) {
         if(err)
         {
           console.log('Error:'+ err);
-          return;
+          callback();
         }     
         // console.log(result);
         db.close();
+        callback(result);
       });
     });
   }

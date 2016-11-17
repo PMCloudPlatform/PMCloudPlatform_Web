@@ -49,14 +49,14 @@
 // 这是新的方法，用这个！
 var MongoClient = require('mongodb').MongoClient;
 // 修改这里的用户名和密码
-var DB_CONN_STR = 'mongodb://username:pwd@133.130.116.215:27017';
+var DB_CONN_STR = 'mongodb://app:f1403018@133.130.116.215:27017/pm';
 
 var selectData = function(db, callback) {  
   //连接到表  
-  var collection = db.collection('tb2');
+  var collection = db.collection('data');
   //查询数据
-  var whereStr = {"name":'wilson001'};
-  collection.find(whereStr).toArray(function(err, result) {
+  var whereStr = {};
+  collection.find(whereStr).skip(0).limit(300).toArray(function(err, result) {
     if(err)
     {
       console.log('Error:'+ err);

@@ -6,13 +6,14 @@ socket.on('complete', function(){
 	console.log('over');
 })
 
-data = {
-	user:"",
-	PM:123.4,
-	time:1234123,
-	GPS:{x:1,y:2,z:3}
+for (var i = 0; i < 100; i++) {
+	data = {
+		user:"test",
+		PM:Math.random()*3600,
+		time:1234123,
+		LOT:121.4339081+Math.random()-0.5,
+		LAT:31.0276681+Math.random()-0.5
+	}
+	socket.emit('senddata', JSON.stringify(data));
 }
-
-socket.emit('senddata', JSON.stringify(data));
-
 

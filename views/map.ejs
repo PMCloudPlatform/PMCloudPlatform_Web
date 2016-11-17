@@ -4,8 +4,9 @@
     <meta charset='utf-8' />
     <title></title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src="/javascripts/vue.js"></script>
-    <script src="/javascripts/vue-resource.js"></script>
+    <!-- <script src="/javascripts/vue.js"></script> -->
+    <!-- <script src="/javascripts/vue-resource.js"></script> -->
+    <script src="/javascripts/socket.io.js"></script>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.27.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.27.0/mapbox-gl.css' rel='stylesheet' />
     <style>
@@ -21,30 +22,42 @@ mapboxgl.accessToken = 'pk.eyJ1IjoieXVnYW8xOTk2IiwiYSI6ImNpdmtodDgwaDBjZzcyb3BvN
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v9',
-    zoom: 15,
+    zoom: 5,
     center: [121.4339081, 31.0276681]
 });
 
+var socket = io();
+
+var pointData = [];
+var index = 0;
+
 map.on('load', firstLoad);
-// map.on('render', continueLoad);
 
-pointData = JSON.parse('<%= pointData%>');
-
-function continueLoad(index){
-    Vue.http.get('/sss').then((response) => {
-        pointData += response.json()[1]
-
-    }, (response) => {
-        console.log('Error while get data!');
-    });   
-}
+socket.on('dataArrive', function(jsonData){
+    // console.log(jsonData);
+    try
+    {
+        pointData = pointData.concat(JSON.parse(jsonData));
+        // console.log(JSON.stringify(pointData));
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
+    map.getSource('polution').setData({
+        "type": "FeatureCollection",
+        "features": pointData
+    });
+    index += 1;
+    socket.emit('requireData', index);
+})
 
 function firstLoad() {
     map.addSource('polution', {
         "type": "geojson",
         "data": {
             "type": "FeatureCollection",
-            "features": pointData   
+            "features": pointData  
         }
     });
     map.addLayer({
@@ -57,12 +70,12 @@ function firstLoad() {
                 property: 'size',
                 type: 'interval',
                 stops: [
-                    [75, 2], 
-                    [150, 3], 
-                    [300, 4], 
-                    [1050, 5], 
-                    [3000, 6], 
-                    [10000, 7]]
+                    [75, 7], 
+                    [150, 6], 
+                    [300, 5], 
+                    [1050, 4], 
+                    [3000, 3], 
+                    [10000, 2]]
             },
             // color circles by ethnicity, using data-driven styles
             'circle-color': {
@@ -78,10 +91,8 @@ function firstLoad() {
             }
         }
     });
+    socket.emit('requireData', index);
 }
-
-
-
 </script>
 
 </body>
