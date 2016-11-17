@@ -36,11 +36,13 @@ var socket = io();
 
 var pointData = [];
 var index = 0;
+var sensitivity = 10;
 
 map.on('load', firstLoad);
 
 map.on('mousemove', function(e) {
-    var features = map.queryRenderedFeatures(e.point, { layers: ['polution'] });
+    // console.log(e.point);
+    var features = map.queryRenderedFeatures([[e.point.x-sensitivity,e.point.y+sensitivity],[e.point.x+sensitivity,e.point.y-sensitivity ]], { layers: ['polution'] });
     // Change the cursor style as a UI indicator.
     map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
 
@@ -57,9 +59,13 @@ map.on('mousemove', function(e) {
         .setHTML(feature.properties.description)
         .addTo(map);
 });
-
-map.on('touchcancel', function(e) {
-    var features = map.queryRenderedFeatures(e.point, { layers: ['polution'] });
+// var touchStart;
+// map.on('touchstart', function(e){
+//     e.point
+// })
+map.on('touchend', function(e) {
+    // console.log(e.point);
+    var features = map.queryRenderedFeatures([[e.point.x-sensitivity,e.point.y+sensitivity],[e.point.x+sensitivity,e.point.y-sensitivity ]], { layers: ['polution'] });
     // Change the cursor style as a UI indicator.
     map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
 
