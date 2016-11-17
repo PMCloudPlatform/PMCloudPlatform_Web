@@ -14,3 +14,5 @@ data = {
 }
 
 socket.emit('senddata', JSON.stringify(data));
+
+

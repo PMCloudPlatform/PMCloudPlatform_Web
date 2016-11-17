@@ -41,7 +41,7 @@ dbClient = {
           console.log('Error:'+ err);
           return;
         }     
-        console.log(result);
+        // console.log(result);
         db.close();
       });
     });

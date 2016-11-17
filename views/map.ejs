@@ -1,27 +1,88 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src="/javascripts/vue.js"></script>
-    <!-- this is uesd when the project is over -->
-    <!-- <script src="/javascripts/vue.min.js"></script> -->
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <div id='test'>
-    	{{message}}
-    	{{cMessage}}
-    	<input type="button" value="+1" style="height=20px;width=100px;" v-on:click='plusOne'/>
-    	<input type="button" v-bind:value="'我为川普续'+computedMessage+'秒'" style="height=20px;width=100px;"/>
-    </div>
+    <script src="/javascripts/vue-resource.js"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.27.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.27.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+<div id='map'></div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoieXVnYW8xOTk2IiwiYSI6ImNpdmtodDgwaDBjZzcyb3BvNTJmbjNtdWcifQ.WHIfvM62pR5G500VqMBfsg';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v9',
+    zoom: 15,
+    center: [121.4339081, 31.0276681]
+});
+
+map.on('load', firstLoad);
+// map.on('render', continueLoad);
+
+pointData = JSON.parse('<%= pointData%>');
+
+function continueLoad(index){
+    Vue.http.get('/sss').then((response) => {
+        pointData += response.json()[1]
+
+    }, (response) => {
+        console.log('Error while get data!');
+    });   
+}
+
+function firstLoad() {
+    map.addSource('polution', {
+        "type": "geojson",
+        "data": {
+            "type": "FeatureCollection",
+            "features": pointData   
+        }
+    });
+    map.addLayer({
+        'id': 'polution',
+        'type': 'circle',
+        'source': 'polution',
+        'paint': {
+            // make circles larger as the user zooms from z12 to z22
+            'circle-radius': {
+                property: 'size',
+                type: 'interval',
+                stops: [
+                    [75, 2], 
+                    [150, 3], 
+                    [300, 4], 
+                    [1050, 5], 
+                    [3000, 6], 
+                    [10000, 7]]
+            },
+            // color circles by ethnicity, using data-driven styles
+            'circle-color': {
+                property: 'size',
+                type: 'interval',
+                stops: [
+                    [75, '#68cb00'],
+                    [150, '#f6e200'],
+                    [300, '#fb890f'],
+                    [1050, '#df2d00'],
+                    [3000, '#b414bb'],
+                    [10000, '#6f0474']]
+            }
+        }
+    });
+}
 
 
 
+</script>
 
-    <!-- this is the bind scripts -->
-    <!-- 注意bind的js必须放在页面的最后 -->
-    <script src="/javascripts/bind/index.js"></script>
-  </body>
+</body>
 </html>
