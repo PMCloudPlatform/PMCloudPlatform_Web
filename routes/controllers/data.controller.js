@@ -12,7 +12,7 @@ function data(req, res, next) {
 function reData(req, res, next) {
 	var Data = [];
 	if(req.query.quantity == undefined) res.send(JSON.stringify([]));;
-	db.find({}, 0, Number(req.query.quantity), function(result){
+	db.find({}, 0, Number(req.query.quantity), function(err, result){
 		if(result == undefined){
 			console.log('Error');
 		}

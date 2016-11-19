@@ -55,7 +55,7 @@ io.on('connection', function(socket){
 		console.log('requiring data~~~');
 		var Data = [];
 		var speed = 50;
-		db.find({}, index*speed,speed, function(result){
+		db.find({}, index*speed,speed, function(err, result){
 			// console.log(result);
 			// console.log(index);
 			if(result == undefined){
