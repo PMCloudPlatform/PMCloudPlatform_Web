@@ -4,6 +4,7 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="/javascripts/vue.js"></script>
+    <script src="/javascripts/vue-resource.js"></script>
     <!-- this is uesd when the project is over -->
     <!-- <script src="/javascripts/vue.min.js"></script> -->
   </head>
@@ -16,12 +17,23 @@
     	<input type="button" value="+1" style="height=20px;width=100px;" v-on:click='plusOne'/>
     	<input type="button" v-bind:value="'我为川普续'+computedMessage+'秒'" style="height=20px;width=100px;"/>
     </div>
+    <div id="selector">
+        <input type="text" placeholder="时间" name="username" v-model.number="time"/>
+        <input type="text" placeholder="数量" name="username" v-model.number="quantity"/>
+        <input type="button" value="search" style="height=20px;width=100px;" v-on:click="searchData"/>
+
+    </div>
+    <ul id="showList">
+      <li v-for="item in items">
+        LOT:{{ item.LOT }}.LAT:{{ item.LAT }}.PM:{{ item.PM }}
+      </li>
+    </ul>
 
 
 
 
     <!-- this is the bind scripts -->
     <!-- 注意bind的js必须放在页面的最后 -->
-    <script src="/javascripts/bind/index.js"></script>
+    <script src="/javascripts/bind/data.js"></script>
   </body>
 </html>
