@@ -11,7 +11,10 @@ function data(req, res, next) {
 
 function reData(req, res, next) {
 	var Data = [];
-	if(req.query.quantity == undefined) res.send(JSON.stringify([]));;
+	if(req.query.quantity == undefined){
+		res.send(JSON.stringify([]));
+		return;
+	} 
 	db.find({}, 0, Number(req.query.quantity), function(err, result){
 		if(result == undefined){
 			console.log('Error');
@@ -34,6 +37,7 @@ function reData(req, res, next) {
 		}
 		res.send(JSON.stringify(Data));
 	})
+	return;
 }
 
 module.exports = router;
