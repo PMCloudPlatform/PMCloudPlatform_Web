@@ -15,7 +15,7 @@ function reData(req, res, next) {
 		res.send(JSON.stringify([]));
 		return;
 	} 
-	db.find({}, 0, Number(req.query.quantity), function(err, result){
+	db.find({time:{$gt:Number(req.query.time)}}, 0, Number(req.query.quantity), function(err, result){
 		if(result == undefined){
 			console.log('Error');
 		}

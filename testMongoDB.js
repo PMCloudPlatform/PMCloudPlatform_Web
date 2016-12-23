@@ -1,4 +1,3 @@
-
 // /*这个方法也是可以的，具体有什么区别不知道*/
 // var mongodb = require('mongodb');
 
@@ -51,30 +50,28 @@ var MongoClient = require('mongodb').MongoClient;
 // 修改这里的用户名和密码
 var DB_CONN_STR = 'mongodb://app:f1403018@133.130.116.215:27017/pm';
 
-var selectData = function(db, callback) {  
-  //连接到表  
-  var collection = db.collection('data');
-  //查询数据
-  var whereStr = {};
-  collection.find(whereStr).skip(0).limit(300).toArray(function(err, result) {
-    if(err)
-    {
-      console.log('Error:'+ err);
-      return;
-    }     
-    callback(result);
-  });
+var selectData = function(db, callback) {
+    //连接到表  
+    var collection = db.collection('data');
+    //查询数据
+    var whereStr = { time: { $gt: 1234122 } };
+    collection.find(whereStr).skip(0).limit(300).toArray(function(err, result) {
+        if (err) {
+            console.log('Error:' + err);
+            return;
+        }
+        callback(result);
+    });
 }
 
 MongoClient.connect(DB_CONN_STR, function(err, db) {
-	if(err)
-    {
-      console.log('Error:'+ err);
-      return;
+    if (err) {
+        console.log('Error:' + err);
+        return;
     }
-  	console.log("连接成功！");
-  	selectData(db, function(result) {
-    console.log(result);
-    db.close();
- 	});
+    console.log("连接成功！");
+    selectData(db, function(result) {
+        console.log(result);
+        db.close();
+    });
 });

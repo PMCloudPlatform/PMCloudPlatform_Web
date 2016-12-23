@@ -42,7 +42,7 @@ io.on('connection', function(socket) {
         try {
             data = JSON.parse(jsonString);
             console.log(data);
-            if (data.LOT != undefined && data.LAT != undefined && data.PM != undefined && data.TIME != undefined) {
+            if (data.LOT != undefined && data.LAT != undefined && data.PM != undefined && data.time != undefined) {
                 db.insert(data);
             } else {
                 console.log("receive error data!");

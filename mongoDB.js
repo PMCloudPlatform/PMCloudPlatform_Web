@@ -27,7 +27,7 @@ MongoClient.connect(DB_CONN_STR, function(err, db) {
         var collection = db.collection('data');
         // console.log(lowerBound);
         // console.log(count);
-        collection.find({}).skip(lowerBound).limit(count).toArray(function(err, result) {
+        collection.find(obj).skip(lowerBound).limit(count).toArray(function(err, result) {
             if (err) {
                 console.log('Error:' + err);
                 callback(err);
