@@ -40,7 +40,7 @@
         <div class="form-group">
             <label for="timeInput">查询时间段</label>
             <div class='input-group date' id='timeInput'>
-                <input type='text' class="form-control"/>
+                <input type='text' class="form-control" />
                 <span class="input-group-addon">  
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -56,14 +56,16 @@
         <table id="showList" class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
+                    <th>时间</th>
+                    <th>经度</th>
+                    <th>纬度</th>
+                    <th>pm含量</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="item in items">
-                    <td>{{item.LOT}}</td>
+                    <td>{{ Date(item.TIME).toLocaleString() }}</td>
+                    <td>{{ item.LOT }}</td>
                     <td>{{ item.LAT }}</td>
                     <td>{{ item.PM }}</td>
                     <!-- LOT:{{ item.LOT }}.LAT:{{ item.LAT }}.PM:{{ item.PM }} -->
@@ -77,13 +79,13 @@
     <script type="text/javascript" src="/javascripts/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
     <!-- 注意bind的js必须放在页面的最后 -->
     <script src="/javascripts/bind/data.js"></script>
-    <script type = "text/javascript" >
-        $(function () {
-            $('#timeInput').datetimepicker({
-                locale: 'zh-cn',
-                autoclose: true
-            });
-        }); 
+    <script type="text/javascript">
+    $(function() {
+        $('#timeInput').datetimepicker({
+            locale: 'zh-cn',
+            autoclose: true
+        });
+    });
     </script>
 </body>
 
