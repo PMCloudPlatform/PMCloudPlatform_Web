@@ -15,20 +15,20 @@ function reData(req, res, next) {
         res.send(JSON.stringify([]));
         return;
     }
-    db.find({ time: { $gt: Number(req.query.time) } }, 0, Number(req.query.quantity), function(err, result) {
+    db.find({ TIME: { $gt: Number(req.query.time) } }, 0, Number(req.query.quantity), function(err, result) {
         if (result == undefined) {
             console.log('Error');
         } else if (result.length == 0) {
             console.log('Load finished');
         } else {
             result.forEach(function(e) {
-                if (e.LOT != undefined && e.LAT != undefined && e.PM != undefined && e.time != undefined) {
+                if (e.LOT != undefined && e.LAT != undefined && e.PM != undefined && e.TIME != undefined) {
                     // console.log(e.LOT);
                     Data.push({
                         "LOT": e.LOT,
                         "LAT": e.LAT,
                         "PM": e.PM,
-                        "TIME": e.time
+                        "TIME": e.TIME
                     })
                 }
             })

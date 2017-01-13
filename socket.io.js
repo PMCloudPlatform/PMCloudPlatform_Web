@@ -42,7 +42,7 @@ io.on('connection', function(socket) {
         try {
             data = JSON.parse(jsonString);
             console.log(data);
-            if (data.LOT != undefined && data.LAT != undefined && data.PM != undefined && data.time != undefined) {
+            if (data.LOT != undefined && data.LAT != undefined && data.PM != undefined && data.TIME != undefined) {
                 db.insert(data);
             } else {
                 console.log("receive error data!");
@@ -65,7 +65,7 @@ io.on('connection', function(socket) {
                 console.log('Load finished');
             } else {
                 result.forEach(function(e) {
-                        if (e.LOT != undefined && e.LAT != undefined && e.PM != undefined && e.time != undefined) {
+                        if (e.LOT != undefined && e.LAT != undefined && e.PM != undefined && e.TIME != undefined) {
                             // console.log(e.LOT);
                             Data.push({
                                 "type": "Feature",
@@ -75,7 +75,7 @@ io.on('connection', function(socket) {
                                 },
                                 "properties": {
                                     "size": e.PM,
-                                    "description": '<strong>PM2.5</strong><p>LOT:' + e.LOT.toString() + '</p><p>LAT:' + e.LAT.toString() + '</p><p>time:' + e.time.toString() + '</p><p>PM2.5:'+ e.PM.toString() + '</p>'
+                                    "description": '<strong>PM2.5</strong><p>LOT:' + e.LOT.toString() + '</p><p>LAT:' + e.LAT.toString() + '</p><p>time:' + e.TIME.toString() + '</p><p>PM2.5:'+ e.PM.toString() + '</p>'
                                 }
                             })
                         }

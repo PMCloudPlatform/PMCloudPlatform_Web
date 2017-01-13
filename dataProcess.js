@@ -18,6 +18,9 @@ function loopTask() {
                 clearInterval(loopTaskNum);
                 createDataSet();
             }
+            else{
+                console.log("the number of element is:"+stats.count);
+            }
         });
     }, 5 * 60 * 1000);
 };
@@ -38,9 +41,9 @@ function createDataSet() {
                 console.log(err.stack);
             });
             result.forEach(function (e) {
-                if (e.LOT != undefined && e.LAT != undefined && e.PM != undefined && e.time != undefined) {
+                if (e.LOT != undefined && e.LAT != undefined && e.PM != undefined && e.TIME != undefined) {
                     data = [];
-                    pmDate = Date(e.time);
+                    pmDate = Date(e.TIME);
                     data[0] = pmDate.getHours()/24;
 
                     data[1] = 0;
@@ -102,6 +105,8 @@ function createDataSet() {
             })
             writerStream.end();
             console.log("execute end...");
+            // run the NN trainer
+
         }
     });
 }
