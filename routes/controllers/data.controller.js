@@ -22,7 +22,7 @@ function reData(req, res, next) {
             console.log('Load finished');
         } else {
             result.forEach(function(e) {
-                if (e.LOT != undefined && e.LAT != undefined && e.PM != undefined) {
+                if (e.LOT != undefined && e.LAT != undefined && e.PM != undefined && e.time != undefined) {
                     // console.log(e.LOT);
                     Data.push({
                         "LOT": e.LOT,

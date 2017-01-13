@@ -65,7 +65,7 @@ io.on('connection', function(socket) {
                 console.log('Load finished');
             } else {
                 result.forEach(function(e) {
-                        if (e.LOT != undefined && e.LAT != undefined && e.PM != undefined) {
+                        if (e.LOT != undefined && e.LAT != undefined && e.PM != undefined && e.time != undefined) {
                             // console.log(e.LOT);
                             Data.push({
                                 "type": "Feature",
@@ -75,7 +75,7 @@ io.on('connection', function(socket) {
                                 },
                                 "properties": {
                                     "size": e.PM,
-                                    "description": '<strong>PM2.5</strong><p>LOT:' + e.LOT.toString() + '</p><p>LAT:' + e.LAT.toString() + '</p><p>PM2.5:' + e.PM.toString() + '</p>'
+                                    "description": '<strong>PM2.5</strong><p>LOT:' + e.LOT.toString() + '</p><p>LAT:' + e.LAT.toString() + '</p><p>time:' + e.time.toString() + '</p><p>PM2.5:'+ e.PM.toString() + '</p>'
                                 }
                             })
                         }

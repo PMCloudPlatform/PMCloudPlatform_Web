@@ -30,13 +30,40 @@ MongoClient.connect(DB_CONN_STR, function(err, db) {
         collection.find(obj).skip(lowerBound).limit(count).toArray(function(err, result) {
             if (err) {
                 console.log('Error:' + err);
-                callback(err);
+                // callback(err);
             }
             // console.log(result);
             // db.close();
             callback(null, result);
         });
     };
+    dbClient.checkStatus = function(callback){
+        //连接到表  
+        var collection = db.collection('data');
+        collection.stats(function(err, stats){
+            if (err) {
+                console.log('Error:' + err);
+                // callback(err);
+            }
+            else{
+                callback(stats);
+            }
+        });
+    };
+    dbClient.getAllCount = function(callback){
+        //连接到表  
+        var collection = db.collection('NNCounter');
+        collection.find({}).toArray(function(err, result) {
+            if (err) {
+                console.log('Error:' + err);
+                // callback(err);
+            }
+            console.log(result);
+            // db.close();
+            callback(result);
+        });
+    };
+
 });
 
 module.exports = dbClient;
