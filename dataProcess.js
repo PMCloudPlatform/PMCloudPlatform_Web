@@ -1,15 +1,22 @@
 var db = require('./mongoDB');
 var fs = require('fs');
+var cp = require('child_process');
 var allCount = 0;
 var dataInterval = 6000;
 var dataSetFile = 'data.txt';
-
-db.getAllCount(function (result) {
-    if (result.length != 0) allCount = result[result.length - 1];
-})
-
 var loopTaskNum = 0;
 
+var NNpredictor;
+
+db.getAllCount(function (result) {
+    if (result.length != 0) allCount = result[result.length - 1].COUNT;
+});
+
+fs.exists("weight.txt",function(exists){
+  if(exists){
+     //run the NN predictor
+  }
+});
 
 function loopTask() {
     loopTaskNum = setInterval(function () {
@@ -17,8 +24,9 @@ function loopTask() {
             if (stats.count >= allCount + dataInterval) {
                 clearInterval(loopTaskNum);
                 createDataSet();
-            }
-            else{
+                allCount += dataInterval;
+                db.setAllCount(allCount);
+            }else{
                 console.log("the number of element is:"+stats.count);
             }
         });
@@ -105,8 +113,12 @@ function createDataSet() {
             })
             writerStream.end();
             console.log("execute end...");
+            if(NNpredictor != undefined){
+                //end the NNpredictor
+            }
             // run the NN trainer
 
+            //run the NN predictor when training is over
         }
     });
 }
@@ -114,4 +126,4 @@ function createDataSet() {
 
 
 
-module.exports = server;
+module.exports = NNpredictor;

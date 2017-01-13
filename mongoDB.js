@@ -63,6 +63,21 @@ MongoClient.connect(DB_CONN_STR, function(err, db) {
             callback(result);
         });
     };
+    dbClient.setAllCount = function(allCount){
+        //连接到表  
+        var collection = db.collection('NNCounter');
+        var obj = {
+            'COUNT': allCount
+        };
+        collection.insert(obj, function(err, result) {
+            if (err) {
+                console.log('Error:' + err);
+                return;
+            }
+            // console.log(result);
+            // db.close();
+        });
+    };
 
 });
 
