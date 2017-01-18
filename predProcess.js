@@ -10,7 +10,7 @@ pred.predFile = predFile;
 pred.runPrediction = function(lot, lat, time, callback){
     
     data = [];
-    pmDate = Date(time);
+    pmDate = new Date(time);
     data[0] = pmDate.getHours()/24;
 
     data[1] = 0;
@@ -30,10 +30,30 @@ pred.runPrediction = function(lot, lat, time, callback){
         var begin= setInterval(function(){
             if(pred.lock == false){
                 pred.lock = true;
+                console.log("predict begin");
                 clearInterval(begin);
                 // run the NN trainer
                 child = cp.exec(predFile, function(error, stdout, stderr){
                     pred.lock = false;
+                    console.log("predict end");
+                    if (error) {
+                        console.log(error.stack);
+                        console.log('Error code: ' + error.code);
+                        return;
+                    }
+                    fs.readFile("testresult.txt", function(err, data){
+                        callback(err, Number(data));
+                    });
+                });
+                //run the NN predictor when training is over
+            }
+            else{
+                pred.lock = true;
+                console.log("predict begin");
+                // run the NN trainer
+                child = cp.exec(predFile, function(error, stdout, stderr){
+                    pred.lock = false;
+                    console.log("predict end");
                     if (error) {
                         console.log(error.stack);
                         console.log('Error code: ' + error.code);

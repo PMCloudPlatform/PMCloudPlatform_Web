@@ -3,7 +3,7 @@ var fs = require('fs');
 var cp = require('child_process');
 var pred = require('./predProcess');
 var allCount = 0;
-var dataInterval = 6000;
+var dataInterval = 60;
 var dataSetFile = 'data.txt';
 var processLock = './lock';
 var trainFile = "train.exe";
@@ -64,7 +64,9 @@ function createDataSet() {
             result.forEach(function (e) {
                 if (e.LOT != undefined && e.LAT != undefined && e.PM != undefined && e.TIME != undefined) {
                     data = [];
-                    pmDate = Date(e.TIME);
+                    console.log(e.TIME);
+                    pmDate = new Date(e.TIME);
+                    console.log(pmDate);
                     data[0] = pmDate.getHours()/24;
 
                     data[1] = 0;
@@ -105,16 +107,30 @@ function createDataSet() {
                 var begin= setInterval(function(){
                     if(pred.lock == false){
                         pred.lock = true;
+                        console.log("train begin");
                         clearInterval(begin);
                         // run the NN trainer
                         child = cp.exec(trainFile, function(err, stdout, stderr){
                             pred.lock = false;
+                            console.log("train end");
                             NNpredictor.loopTask();
                         });
+                        
                         //run the NN predictor when training is over
                     }
                 },1000);
-            }  
+            }
+            else{
+                pred.lock = true;
+                console.log("train begin");
+                // run the NN trainer
+                child = cp.exec(trainFile, function(err, stdout, stderr){
+                    pred.lock = false;
+                    console.log("train end");
+                    NNpredictor.loopTask();
+                });
+                //run the NN predictor when training is over
+            }
         }
     });
 }

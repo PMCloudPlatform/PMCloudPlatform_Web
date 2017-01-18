@@ -3,7 +3,9 @@ var predVM = new Vue({
     data: {
         lot: 0,
         lat: 0,
-        isDisable: false
+        isDisable: false,
+        baseClass: 'btn btn-block',
+        statusClass: 'btn-primary'
     },
     methods: {
         searchData: function () {
@@ -29,11 +31,11 @@ var predVM = new Vue({
                     showVM.predictResult = response.data;
                     predVM.statusClass = 'btn-success';
                     predVM.isDisable = false;
-                    console.log(listVM.items);
+                    console.log(showVM.predictResult);
                 },
                 function (err) {
-                    timeVM.statusClass = 'btn-danger';
-                    timeVM.isDisable = false;
+                    predVM.statusClass = 'btn-danger';
+                    predVM.isDisable = false;
                     console.log(err);
                 }
             )
