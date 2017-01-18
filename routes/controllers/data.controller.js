@@ -1,5 +1,6 @@
 var express = require('express');
 var db = require('../../mongoDB');
+
 var router = express.Router();
 
 router.get('/', data);

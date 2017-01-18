@@ -7,9 +7,6 @@ var timeVM = new Vue({
         isDisable: false
     },
     methods: {
-        getTimeStamp: function () {
-            
-        },
         searchData: function () {
             timeVM.isDisable = true;
             //取出时间戳  
