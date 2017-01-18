@@ -43,7 +43,7 @@ NNpredictor.loopTask = function() {
                 console.log("the number of element is:"+stats.count);
             }
         });
-    }, 1000);
+}, 60*1000);
 };
 
 
