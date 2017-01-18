@@ -32,6 +32,7 @@ NNpredictor.init = function(){
 
 NNpredictor.loopTask = function() {
     loopTaskNum = setInterval(function () {
+        console.log(1);
         db.checkStatus(function (stats) {
             if (stats.count >= allCount + dataInterval) {
                 clearInterval(loopTaskNum);
@@ -42,7 +43,7 @@ NNpredictor.loopTask = function() {
                 console.log("the number of element is:"+stats.count);
             }
         });
-    }, 60 * 1000);
+    }, 1000);
 };
 
 

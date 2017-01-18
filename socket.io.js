@@ -7,8 +7,8 @@
 var app = require('./app');
 var http = require('http');
 var db = require('./mongoDB')
-
-
+var NN = require('./dataProcess');
+NN.init();
 /**
  * Get port from environment and store in Express.
  */
