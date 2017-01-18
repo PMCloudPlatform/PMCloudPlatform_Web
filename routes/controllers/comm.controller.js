@@ -1,9 +1,12 @@
 var express = require('express');
 var pred = require('../../predProcess');
 var router = express.Router();
+var resultflag = 0;
+var result;
 
 router.get('/', comm);
 router.get('/getPredict', runPredict);
+router.get('/getResult', getResult);
 
 function comm(req, res, next) {
   res.render('comm', {title:'pm2.5 cloud platform'})
@@ -22,30 +25,43 @@ function runPredict(req, res, next) {
         res.send("没有输入时间");
         return;
   }
-  pred.runPrediction(Number(req.query.lot), Number(req.query.lat), Number(req.query.time), function(err, data){
+  else{
+      pred.runPrediction(Number(req.query.lot), Number(req.query.lat), Number(req.query.time), setResult(err, data));
+  }
+}
+
+function setResult(err, data){
     if(data == 1){
-      res.send("非常好");
+      result = "非常好";
     }
     else if(data == 2){
-      res.send("很好");
+      result = "很好";
     }
     else if(data == 3){
-      res.send("好");
+      result = "好";
     }
     else if(data == 4){
-      res.send("一般");
+      result = "一般";
     }
     else if(data == 5){
-      res.send("差");
+      result = "差";
     }
     else if(data == 6){
-      res.send("很差");
+      result = "很差";
     }
     else{
-      res.send("爆表了！");
+      result = "爆表了！";
     }
-  });
+    resultflag = 1;
+    res.send("请稍等...");
+}
 
+void getResult(req, res, next){
+  if(resultflag == 0)
+    res.send("请稍等...");
+  else{
+    res.send(result);
+  }
 }
 
 module.exports = router;

@@ -5,7 +5,8 @@ var predVM = new Vue({
         lat: 0,
         isDisable: false,
         baseClass: 'btn btn-block',
-        statusClass: 'btn-primary'
+        statusClass: 'btn-primary',
+        loopEvent: 0
     },
     methods: {
         searchData: function () {
@@ -32,6 +33,7 @@ var predVM = new Vue({
                     predVM.statusClass = 'btn-success';
                     predVM.isDisable = false;
                     console.log(showVM.predictResult);
+                    predVM.loopEvent = setInterval(checkResult, 1000);
                 },
                 function (err) {
                     predVM.statusClass = 'btn-danger';
@@ -43,6 +45,22 @@ var predVM = new Vue({
     }
 });
 
+function checkResult(){
+    Vue.http.get('/comm/getResult').then(
+        function(response){
+            showVM.predictResult = response.data;
+            predVM.statusClass = 'btn-success';
+            predVM.isDisable = false;
+            console.log(showVM.predictResult);
+            clearInterval(predVM.loopEvent);
+        },
+        function(err){
+            predVM.statusClass = 'btn-danger';
+            predVM.isDisable = false;
+            console.log(err);
+        }
+    )
+}
 var showVM = new Vue({
     el: "#showBox",
     data: {
