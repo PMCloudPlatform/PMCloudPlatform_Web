@@ -26,8 +26,8 @@ pred.runPrediction = function(lot, lat, time, callback){
     data[3] = lot;
     data[3] = data[3]/360
     pred.lock = true;
-    
-    fs.writeFileSync(dataSetFile, data.join(" ")+'\n',"UTF-8");
+
+    fs.writeFileSync(dataSetFile, data.join(" ")+'\n');
     child = cp.exec(predFile, function(error, stdout, stderr){
         pred.lock = false;
         if (error) {
