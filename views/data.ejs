@@ -65,7 +65,7 @@
             </thead>
             <tbody>
                 <tr v-for="item in items">
-                    <td>{{ Date(item.TIME).toLocaleString() }}</td>
+                    <td>{{ (new Date(item.TIME)).toString() }}</td>
                     <td>{{ item.LOT }}</td>
                     <td>{{ item.LAT }}</td>
                     <td>{{ item.PM }}</td>
