@@ -10,25 +10,13 @@ router.get('/getResult', getResult);
 
 function comm(req, res, next) {
   res.render('comm', {title:'pm2.5 cloud platform'})
-}
+};
 
 function runPredict(req, res, next) {
-  if (req.query.lot == undefined) {
-        res.send("没有输入经度");
-        return;
-  }
-  if (req.query.lat == undefined) {
-        res.send("没有输入纬度");
-        return;
-  }
-  if (req.query.time == undefined) {
-        res.send("没有输入时间");
-        return;
-  }
-  else{
-      pred.runPrediction(Number(req.query.lot), Number(req.query.lat), Number(req.query.time), setResult(err, data));
-  }
-}
+    pred.runPrediction(Number(req.query.lot), Number(req.query.lat), Number(req.query.time), setResult);
+    res.send("请稍等...");
+
+};
 
 function setResult(err, data){
     if(data == 1){
@@ -53,15 +41,15 @@ function setResult(err, data){
       result = "爆表了！";
     }
     resultflag = 1;
-    res.send("请稍等...");
-}
+};
 
-void getResult(req, res, next){
+function getResult(req, res, next){
   if(resultflag == 0)
-    res.send("请稍等...");
+    res.send("1");
   else{
     res.send(result);
+    resultflag = 0;
   }
-}
+};
 
 module.exports = router;
