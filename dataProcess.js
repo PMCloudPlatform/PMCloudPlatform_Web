@@ -11,9 +11,18 @@ var loopTaskNum = 0;
 
 var NNpredictor = {};
 
-db.getAllCount(function (result) {
-    if (result.length != 0) allCount = result[result.length - 1].COUNT;
-});
+NNpredictor.init = function(){
+    var begin= setInterval(function(){
+        if(db.getAllCount != undefined){
+            clearInterval(begin);
+            db.getAllCount(function (result) {
+                if (result.length != 0) allCount = result[result.length - 1].COUNT;
+                NNpredictor.loopTask();
+            });        
+        }
+    },1000);
+};
+
 
 // fs.exists("weight.txt",function(exists){
 //   if(exists){
@@ -91,26 +100,31 @@ function createDataSet() {
             })
             writerStream.end();
             console.log("execute end...");
-            while(pred.lock == false){
-                sleep(1);
-            }
-            pred.lock = true;
-            // run the NN trainer
-            child = cp.exec(trainFile, function(err, stdout, stderr){
-                pred.lock = false;
-                NNpredictor.loopTask();
-            });
-            //run the NN predictor when training is over
+            if(pred.lock == true){
+                var begin= setInterval(function(){
+                    if(pred.lock == false){
+                        pred.lock = true;
+                        clearInterval(begin);
+                        // run the NN trainer
+                        child = cp.exec(trainFile, function(err, stdout, stderr){
+                            pred.lock = false;
+                            NNpredictor.loopTask();
+                        });
+                        //run the NN predictor when training is over
+                    }
+                },1000);
+            }  
         }
     });
 }
 
-var sleep = function (length){
+var sleep = function (length, callback){
     var index = 0;
     var begin= setInterval(function(){
         index ++;
         if(length<index){
-        clearInterval(begin);
+            callback();
+            clearInterval(begin);
         }
     },1000);
 }       

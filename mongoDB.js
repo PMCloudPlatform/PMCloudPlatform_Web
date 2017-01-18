@@ -1,4 +1,6 @@
 var MongoClient = require('mongodb').MongoClient;
+var NN = require('./dataProcess');
+
 // 修改这里的用户名和密码
 var DB_CONN_STR = 'mongodb://app:f1403018@133.130.116.215:27017/pm';
 // var DB_CONN_STR = 'mongodb://username:pwd@127.0.0.1:27017';
@@ -78,7 +80,7 @@ MongoClient.connect(DB_CONN_STR, function(err, db) {
             // db.close();
         });
     };
-
+    setTimeout(NN.init, 1000);
 });
 
 module.exports = dbClient;

@@ -8,9 +8,7 @@ pred.lock = false;
 pred.predFile = predFile;
 
 pred.runPrediction = function(lot, lat, time, callback){
-    while(pred.lock == true){
-        sleep(1);
-    }
+    
     data = [];
     pmDate = Date(time);
     data[0] = pmDate.getHours()/24;
@@ -28,26 +26,27 @@ pred.runPrediction = function(lot, lat, time, callback){
     pred.lock = true;
 
     fs.writeFileSync(dataSetFile, data.join(" ")+'\n');
-    child = cp.exec(predFile, function(error, stdout, stderr){
-        pred.lock = false;
-        if (error) {
-            console.log(error.stack);
-            console.log('Error code: ' + error.code);
-            return;
-        }
-        fs.readFile("testresult.txt", function(err, data){
-            callback(err, Number(data));
-        });
-    });
+    if(pred.lock == true){
+        var begin= setInterval(function(){
+            if(pred.lock == false){
+                pred.lock = true;
+                clearInterval(begin);
+                // run the NN trainer
+                child = cp.exec(predFile, function(error, stdout, stderr){
+                    pred.lock = false;
+                    if (error) {
+                        console.log(error.stack);
+                        console.log('Error code: ' + error.code);
+                        return;
+                    }
+                    fs.readFile("testresult.txt", function(err, data){
+                        callback(err, Number(data));
+                    });
+                });
+                //run the NN predictor when training is over
+            }
+        },1000);
+    }  
+    
 }
-
-var sleep = function (length){
-    var index = 0;
-    var begin= setInterval(function(){
-        index ++;
-        if(length<index){
-        clearInterval(begin);
-        }
-    },1000);
-}      
 module.exports = pred;
