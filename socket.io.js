@@ -73,7 +73,7 @@ io.on('connection', function(socket) {
                                 "type": "Feature",
                                 "geometry": {
                                     "type": "Point",
-                                    "coordinates": [e.LOT, e.LAT]
+                            "coordinates": [e.LOT+Math.random()*0.01, e.LAT+Math.random()*0.01]
                                 },
                                 "properties": {
                                     "size": e.PM,
