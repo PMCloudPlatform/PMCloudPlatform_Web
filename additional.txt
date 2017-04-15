@@ -1,0 +1,7 @@
+用于启动windows下的数据库
+
+mongod --dbpath C:\software\MongoDB\DataBase
+
+用户状态的保存看起来可以用session（本身基于cookie）
+
+配合Vue来实现吧！网上的代码在login和register中，需要修改！
