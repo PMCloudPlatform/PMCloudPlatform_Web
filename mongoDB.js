@@ -1,8 +1,8 @@
 var MongoClient = require('mongodb').MongoClient;
 
 // 修改这里的用户名和密码
-var DB_CONN_STR = 'mongodb://app:f1403018@133.130.116.215:27017/pm';
-// var DB_CONN_STR = 'mongodb://username:pwd@127.0.0.1:27017';
+// var DB_CONN_STR = 'mongodb://app:f1403018@133.130.116.215:27017/pm';
+var DB_CONN_STR = 'mongodb://127.0.0.1:27017/pm';
 var dbClient = {};
 
 MongoClient.connect(DB_CONN_STR, function(err, db) {
@@ -12,6 +12,8 @@ MongoClient.connect(DB_CONN_STR, function(err, db) {
     }
     console.log(DB_CONN_STR + "连接成功！");
     dbClient.insert = function(obj) {
+
+
         //连接到表  
         var collection = db.collection('data');
         collection.insert(obj, function(err, result) {
@@ -38,20 +40,19 @@ MongoClient.connect(DB_CONN_STR, function(err, db) {
             callback(null, result);
         });
     };
-    dbClient.checkStatus = function(callback){
+    dbClient.checkStatus = function(callback) {
         //连接到表  
         var collection = db.collection('data');
-        collection.stats(function(err, stats){
+        collection.stats(function(err, stats) {
             if (err) {
                 console.log('Error:' + err);
                 // callback(err);
-            }
-            else{
+            } else {
                 callback(stats);
             }
         });
     };
-    dbClient.getAllCount = function(callback){
+    dbClient.getAllCount = function(callback) {
         //连接到表  
         var collection = db.collection('NNCounter');
         collection.find({}).toArray(function(err, result) {
@@ -64,7 +65,7 @@ MongoClient.connect(DB_CONN_STR, function(err, db) {
             callback(result);
         });
     };
-    dbClient.setAllCount = function(allCount){
+    dbClient.setAllCount = function(allCount) {
         //连接到表  
         var collection = db.collection('NNCounter');
         var obj = {
@@ -78,7 +79,7 @@ MongoClient.connect(DB_CONN_STR, function(err, db) {
             // console.log(result);
             // db.close();
         });
-    };    
+    };
 });
 
 module.exports = dbClient;
