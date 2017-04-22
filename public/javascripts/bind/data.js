@@ -7,20 +7,20 @@ var timeVM = new Vue({
         isDisable: false
     },
     methods: {
-        searchData: function () {
+        searchData: function() {
             timeVM.isDisable = true;
             //取出时间戳  
             var datetime1 = $('#timeInput').data().date;
             var datetimestamp = Date.parse(datetime1).toString();
             console.log(datetimestamp);
             this.$http.get('/data/requireData?time=' + datetimestamp + '&quantity=' + this.quantity).then(
-                function (response) {
+                function(response) {
                     listVM.items = JSON.parse(response.data);
                     // timeVM.statusClass = 'btn-success';
                     timeVM.isDisable = false;
                     // console.log(listVM.items);
                 },
-                function (err) {
+                function(err) {
                     timeVM.statusClass = 'btn-danger';
                     timeVM.isDisable = false;
                     console.log(err);
