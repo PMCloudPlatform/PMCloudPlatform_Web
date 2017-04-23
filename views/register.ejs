@@ -13,7 +13,7 @@
     <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap-theme.css">
     <link href="/stylesheets/bootstrap-datetimepicker.min.css" rel="stylesheet">
-    <link rel='stylesheet' href='/stylesheets/datastyle.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
     <style type="text/css">
         .m15 {
             margin: 15px;
@@ -48,55 +48,58 @@
             <!--/.nav-collapse -->
         </div>
     </div>
-    <div class="container">
-        <%- message %>
-            <form class="col-sm-offset-4 col-sm-4 form-horizontal" role="form" method="post" onsubmit="return false">
-                <fieldset>
-                    <legend></legend>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <p class="tc">注册信息</p>
-                        </div>
-                        <div class="panel-body m15">
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <span class="input-group-addon">
+    <div class="container" id="app">
+        <form class="col-sm-offset-4 col-sm-4 form-horizontal" role="form" method="post" onsubmit="return false">
+            <fieldset>
+                <legend></legend>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <p class="tc">注册信息</p>
+                    </div>
+                    <div class="panel-body m15">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
                         <span class="glyphicon glyphicon-user"></span>
-                                    </span>
-                                    <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名" required>
-                                </div>
+                                </span>
+                                <input type="text" class="form-control" id="username" name="username" v-model="username" placeholder="请输入用户名" required>
                             </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <span class="input-group-addon">
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
                         <span class="glyphicon glyphicon-lock"></span>
-                                    </span>
-                                    <input type="text" class="form-control" id="password" name="password" placeholder="请输入密码" required>
-                                </div>
+                                </span>
+                                <input type="text" class="form-control" id="password" name="password" v-model="password" placeholder="请输入密码" required>
                             </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <span class="input-group-addon">
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
                         <span class="glyphicon glyphicon-lock"></span>
-                                    </span>
-                                    <input type="text" class="form-control" id="password1" name="password1" placeholder="请再次输入密码" required>
-                                </div>
+                                </span>
+                                <input type="text" class="form-control" id="password1" name="password1" v-model="repeatPwd" @change="identity" placeholder="请再次输入密码" :style="{border: warning}" required>
                             </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary btn-block" id="register1">注册</button>
-                            </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-info col-sm-2 col-sm-offset-10" id="login1">登录</button>
-                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block" id="register1" @click="register">注册</button>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-info col-sm-2 col-sm-offset-10" id="login1" @click="login">登录</button>
                         </div>
                     </div>
-                </fieldset>
-            </form>
+                </div>
+            </fieldset>
+        </form>
     </div>
 
-    <script type="text/javascript" src="javascripts/jquery.min.js"></script>
-    <script type="text/javascript" src="javascripts/bootstrap.min.js"></script>
-    <script type="text/javascript">
+    <!-- this is the bind scripts -->
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/javascripts/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+    <!-- 注意bind的js必须放在页面的最后 -->
+    <script src="/javascripts/bind/register.js"></script>
+    <!--<script type="text/javascript">
         $(function() {
             $("#login1").click(function() {
                 location.href = 'login';
@@ -129,7 +132,7 @@
                 }
             });
         });
-    </script>
+    </script>-->
 </body>
 </head>
 
