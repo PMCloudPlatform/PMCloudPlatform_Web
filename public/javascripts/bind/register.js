@@ -25,7 +25,7 @@ var registerVm = new Vue({
                     "upwd": this.password
                 };
                 console.log(data);
-                this.$http.get('/register/register').then(
+                this.$http.post('/register/register', data).then(
                     function(response) {
                         console.log(response.data);
                     },
