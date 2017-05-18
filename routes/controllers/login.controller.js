@@ -6,12 +6,14 @@ router.get('/', login);
 router.get('/login', test);
 
 function login(req, res, next) {
-    res.render('login', {
+    if (req.session.loginUser) {
+        res.render('login', {
             title: 'pm2.5 cloud platform',
             message: 'test'
-        }
-
-    )
+        })
+    } else {
+        res.send("Wrong!");
+    }
 }
 
 function test(req, res, next) {

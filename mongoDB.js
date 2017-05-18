@@ -5,17 +5,18 @@ var MongoClient = require('mongodb').MongoClient;
 var DB_CONN_STR = 'mongodb://127.0.0.1:27017/pm';
 var dbClient = {};
 
+
 MongoClient.connect(DB_CONN_STR, function(err, db) {
     if (err) {
         console.log('Error:' + err);
         return;
     }
     console.log(DB_CONN_STR + "连接成功！");
-    dbClient.insert = function(obj) {
+    dbClient.insert = function(obj, coll) {
 
 
         //连接到表  
-        var collection = db.collection('data');
+        var collection = db.collection(coll);
         collection.insert(obj, function(err, result) {
             if (err) {
                 console.log('Error:' + err);
@@ -25,7 +26,22 @@ MongoClient.connect(DB_CONN_STR, function(err, db) {
             // db.close();
         });
     };
-    dbClient.find = function(obj, lowerBound, count, callback) {
+    dbClient.find = function(obj, coll, callback) {
+        //连接到表  
+        var collection = db.collection(coll);
+        // console.log(lowerBound);
+        // console.log(count);
+        collection.find(obj).toArray(function(err, result) {
+            if (err) {
+                console.log('Error:' + err);
+                callback(err, null);
+            }
+            // console.log(result);
+            // db.close();
+            callback(null, result);
+        });
+    };
+    dbClient.findData = function(obj, lowerBound, count, callback) {
         //连接到表  
         var collection = db.collection('data');
         // console.log(lowerBound);
