@@ -67,7 +67,6 @@ function createDataSet() {
                     pmDate = new Date(e.TIME);
                     console.log(pmDate);
                     data[0] = pmDate.getHours() / 24;
-
                     data[1] = 0;
                     for (i = 0; i < pmDate.getMonth(); i++) {
                         data[1] += (new Date(pmDate.getFullYear(), i, 0)).getDate();
@@ -105,31 +104,27 @@ function createDataSet() {
             if (pred.lock == true) {
                 var begin = setInterval(function() {
                     if (pred.lock == false) {
-                        pred.lock = true;
-                        console.log("train begin");
                         clearInterval(begin);
-                        // run the NN trainer
-                        child = cp.exec(trainFile, function(err, stdout, stderr) {
-                            pred.lock = false;
-                            console.log("train end");
-                            NNpredictor.loopTask();
-                        });
-                        //run the NN predictor when training is over
+                        runTrainExec()
                     }
                 }, 1000);
             } else {
-                pred.lock = true;
-                console.log("train begin");
-                // run the NN trainer
-                child = cp.exec(trainFile, function(err, stdout, stderr) {
-                    pred.lock = false;
-                    console.log("train end");
-                    NNpredictor.loopTask();
-                });
-                //run the NN predictor when training is over
+                runTrainExec()
             }
         }
     });
+}
+
+function runTrainExec() {
+    pred.lock = true;
+    console.log("train begin");
+    // run the NN trainer
+    child = cp.exec(trainFile, function(err, stdout, stderr) {
+        pred.lock = false;
+        console.log("train end");
+        NNpredictor.loopTask();
+    });
+    //run the NN predictor when training is over
 }
 
 module.exports = NNpredictor;
