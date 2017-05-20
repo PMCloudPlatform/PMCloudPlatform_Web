@@ -1,4 +1,4 @@
-var predVM = new Vue({
+var app = new Vue({
     el: "#selector",
     data: {
         lot: 0,
@@ -9,39 +9,36 @@ var predVM = new Vue({
         loopEvent: 0
     },
     methods: {
-        searchData: function () {
-            predVM.isDisable = true;
+        searchData: function() {
+            app.isDisable = true;
             //取出时间戳  
             var datetime1 = $('#timeInput').data().date;
             var datetimestamp = Date.parse(datetime1).toString();
             console.log(datetimestamp);
-            if(isNaN(datetimestamp)){
+            if (isNaN(datetimestamp)) {
                 showVM.predictResult = "请选择日期！";
-                predVM.isDisable = false;
+                app.isDisable = false;
                 // return;
-            }
-            else if(this.lot < -180 || this.lot > 180){
+            } else if (this.lot < -180 || this.lot > 180) {
                 showVM.predictResult = "请输入正确的经度！";
-                predVM.isDisable = false;
+                app.isDisable = false;
                 // return;
-            }
-            else if(this.lat < -90 || this.lat > 90){
+            } else if (this.lat < -90 || this.lat > 90) {
                 showVM.predictResult = "请输入正确的纬度！";
-                predVM.isDisable = false;
+                app.isDisable = false;
                 // return;
-            }
-            else{
+            } else {
                 this.$http.get('/comm/getPredict?time=' + datetimestamp + '&lot=' + this.lot + '&lat=' + this.lat).then(
-                    function (response) {
+                    function(response) {
                         showVM.predictResult = response.data;
-                        predVM.statusClass = 'btn-success';
-                        predVM.isDisable = false;
+                        app.statusClass = 'btn-success';
+                        app.isDisable = false;
                         console.log(showVM.predictResult);
-                        predVM.loopEvent = setInterval(checkResult, 1000);
+                        app.loopEvent = setInterval(checkResult, 1000);
                     },
-                    function (err) {
-                        predVM.statusClass = 'btn-danger';
-                        predVM.isDisable = false;
+                    function(err) {
+                        app.statusClass = 'btn-danger';
+                        app.isDisable = false;
                         console.log(err);
                     }
                 )
@@ -50,20 +47,20 @@ var predVM = new Vue({
     }
 });
 
-function checkResult(){
+function checkResult() {
     Vue.http.get('/comm/getResult').then(
-        function(response){
-            if(response.data != "1"){
+        function(response) {
+            if (response.data != "1") {
                 showVM.predictResult = response.data;
-                predVM.statusClass = 'btn-success';
-                predVM.isDisable = false;
+                app.statusClass = 'btn-success';
+                app.isDisable = false;
                 console.log(showVM.predictResult);
-                clearInterval(predVM.loopEvent);
+                clearInterval(app.loopEvent);
             };
         },
-        function(err){
-            predVM.statusClass = 'btn-danger';
-            predVM.isDisable = false;
+        function(err) {
+            app.statusClass = 'btn-danger';
+            app.isDisable = false;
             console.log(err);
         }
     )

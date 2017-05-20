@@ -14,112 +14,97 @@
     <link href="/stylesheets/bootstrap.css" rel="stylesheet">
     <!--Flat UI-->
     <link href="/stylesheets/flat-ui.css" rel="stylesheet">
-    <!--time picker-->
-    <link href="/stylesheets/bootstrap-datetimepicker.min.css" rel="stylesheet">
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <style type="text/css">
-        .m15 {
-            margin: 15px;
-        }
-        
-        .tc {
-            text-align: center;
-            font-size: 18px;
-            font-weight: 600;
-        }
-    </style>
 </head>
 
 <body>
     <!--导航栏-->
     <!-- Fixed navbar -->
-    <template id="app">
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+    <div id="app">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 </button>
-                <a class="navbar-brand" href="/">PM 2.5</a>
+                    <a class="navbar-brand" href="/">PM 2.5</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="/comm">Predict</a></li>
+                        <li><a href="/data">Search</a></li>
+                        <li><a href="/map">Map</a></li>
+                        <li><a href="#">About us</a></li>
+                    </ul>
+                </div>
+                <!--/.nav-collapse -->
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="/comm">Predict</a></li>
-                    <li><a href="/data">Search</a></li>
-                    <li><a href="/map">Map</a></li>
-                    <li><a href="#">About us</a></li>
-                </ul>
-            </div>
-            <!--/.nav-collapse -->
         </div>
-    </div>
-    <div class="container">
-        <form class="col-sm-offset-4 col-sm-4 form-horizontal" role="form" method="post" onsubmit="return false">
-            <fieldset>
-                <legend></legend>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <p class="tc">注册信息</p>
-                    </div>
-                    <div class="panel-body m15">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon">
+        <div class="container">
+            <form class="col-sm-offset-4 col-sm-4 form-horizontal" role="form" method="post" onsubmit="return false">
+                <fieldset>
+                    <legend></legend>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <p class="tc">注册信息</p>
+                        </div>
+                        <div class="panel-body m15">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
                         <span class="glyphicon glyphicon-user"></span>
-                                </span>
-                                <input type="text" class="form-control" id="username" name="username" v-model="username" placeholder="请输入用户名" required>
+                                    </span>
+                                    <input type="text" class="form-control" id="username" name="username" v-model="username" placeholder="请输入用户名" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
                         <span class="glyphicon glyphicon-lock"></span>
-                                </span>
-                                <input type="text" class="form-control" id="password" name="password" v-model="password" placeholder="请输入密码" required>
+                                    </span>
+                                    <input type="text" class="form-control" id="password" name="password" v-model="password" placeholder="请输入密码" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
                         <span class="glyphicon glyphicon-lock"></span>
-                                </span>
-                                <input type="text" class="form-control" id="password1" name="password1" v-model="repeatPwd" @change="identity" placeholder="请再次输入密码" :style="{border: warning}" required>
+                                    </span>
+                                    <input type="text" class="form-control" id="password1" name="password1" v-model="repeatPwd" placeholder="请再次输入密码" required>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block" id="register1" @click="register">注册</button>
-                        </div>
-                        <div class="form-group">
-                            <button type="button" class="btn btn-info col-sm-2 col-sm-offset-10" id="login1" @click="login">登录</button>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block" id="register1" @click="register" :disabled="isSatisfy">注册</button>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-info col-sm-2 col-sm-offset-10" id="login1" @click="login">登录</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-    <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="warning">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">{{status}}</h4>
-                </div>
-                <div class="modal-body">
-                    <p>{{message}}</p>
+                </fieldset>
+            </form>
+        </div>
+        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="warning">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">{{status}}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{message}}</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    </template>
 
 
     <script src="/javascripts/jquery.js "></script>
     <script src="/javascripts/flat-ui.js "></script>
-    <script type="text/javascript" src="/javascripts/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
     <script src="/javascripts/application.js"></script>
     <!-- this is the bind scripts -->
     <!-- 注意bind的js必须放在页面的最后 -->
     <script src="/javascripts/bind/register.js"></script>
 </body>
-</head>
 
 </html>

@@ -10,8 +10,7 @@ router.post('/login', login);
 function index(req, res, next) {
     if (!req.session.username) {
         res.render('login', {
-            title: 'pm2.5 cloud platform',
-            message: 'test'
+            title: 'pm2.5 cloud platform'
         })
     } else {
         res.redirect('/');
@@ -22,7 +21,7 @@ function login(req, res, next) {
     var user = {};
     user.username = req.body.username;
     user.password = sha1(req.body.password);
-
+    console.log("!");
     db.find(user, 'user', function(err, result) {
         if (err) {
             console.log("Error:" + err);
@@ -38,6 +37,7 @@ function login(req, res, next) {
                 status: 1,
                 msg: "Successful!"
             });
+            return;
         } else {
             res.json({
                 status: 0,

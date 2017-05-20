@@ -1,8 +1,10 @@
-var loginVM = new Vue({
+var app = new Vue({
     el: '#app',
     data: {
         username: "",
-        password: ""
+        password: "",
+        status: "",
+        message: ""
     },
     methods: {
         register: function() {
@@ -11,12 +13,23 @@ var loginVM = new Vue({
         login: function() {
             console.log(this);
             var data = {
-                "uname": this.username,
-                "upwd": this.password
+                "username": this.username,
+                "password": this.password
             };
-            this.$http.get('/login/login').then(
+            this.$http.post('/login/login', data).then(
                 function(response) {
-                    console.log(response.data);
+                    if (response.data.status == 1) {
+                        app.status = "Success!";
+                        app.message = "Login successfully!";
+                        setTimeout(function() {
+                            location.href = '/';
+                        }, 2000);
+                        $('#warning').modal({});
+                    } else if (response.data.status == 0) {
+                        app.status = "Error!";
+                        app.message = `Something wrong while following ${response.data.msg}`;
+                        $('#warning').modal({});
+                    }
                 },
                 function(err) {
                     console.log(err);

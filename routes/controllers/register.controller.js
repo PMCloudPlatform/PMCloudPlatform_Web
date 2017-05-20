@@ -7,11 +7,15 @@ router.get('/', main);
 router.post('/register', register);
 
 function main(req, res, next) {
-    res.render('register', {
+    var session = req.session;
+    if (!session.username) {
+        res.render('register', {
             title: 'pm2.5 cloud platform',
-        }
+        });
+    } else {
+        res.redirect('/');
+    }
 
-    )
 }
 
 function register(req, res, next) {

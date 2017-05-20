@@ -1,24 +1,24 @@
-var registerVm = new Vue({
+var app = new Vue({
     el: '#app',
     data: {
         status: "",
         message: "",
         username: "",
         password: "",
-        repeatPwd: "",
-        warning: ""
+        repeatPwd: ""
+    },
+    computed: {
+        isSatisfy: function() {
+            if (this.password !== "" && this.password === this.repeatPwd && this.username !== "") {
+                return false;
+            } else {
+                return true;
+            }
+        }
     },
     methods: {
         login: function() {
             location.href = 'login';
-        },
-        identity: function() {
-            if (this.password != this.repeatPwd) {
-                console.log("www");
-                this.warning = "1px solid red";
-            } else {
-                this.warning = "";
-            }
         },
         register: function() {
             if (this.password == this.repeatPwd) {
@@ -32,6 +32,9 @@ var registerVm = new Vue({
                         if (response.data.status == 1) {
                             app.status = "Success!";
                             app.message = "Register successfully!";
+                            setTimeout(function() {
+                                location.href = '/login';
+                            }, 2000);
                             $('#warning').modal({});
                         } else if (response.data.status == 0) {
                             app.status = "Error!";
