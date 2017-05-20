@@ -17,39 +17,33 @@ function main(req, res, next) {
 function register(req, res, next) {
     console.log(req.body.uname);
     var info = {};
-    info["username"] = req.body.uname;
-    info["password"] = sha1(req.body.upwd);
-
+    info.username = req.body.uname;
+    info.password = sha1(req.body.upwd);
     db.find({ username: info["username"] }, 'user', function(err, result) {
             if (err) {
                 console.log("Error:" + err);
-                res.send("Wrong!");
+                res.json({
+                    status: 0,
+                    msg: "Error:" + err
+                });
                 return;
             }
             if (result.length == 0) {
                 db.insert(info, 'user');
-
-
-                req.session.regenerate(function(err) {
-                    if (err) {
-                        console.log("Error:" + err);
-                        res.send("Wrong!");
-                        return;
-                    }
-                    req.session.loginUser = req.body.uname;
-                    res.send("Success!");
+                res.json({
+                    status: 1,
+                    msg: "Successful!"
                 });
-
             } else {
                 console.log("the existed user are: " + JSON.stringify(result));
-                res.send("Already exists!");
+                res.json({
+                    status: 0,
+                    msg: "User already exists!"
+                });
                 return;
             }
-
         })
-        // db.insert(info, "user");
-    return;
-    // res.send("get" + req.body.uname + " " + req.body.upwd);
+        // res.send("get" + req.body.uname + " " + req.body.upwd);
 }
 
 function sha1(content) {
