@@ -1,6 +1,8 @@
 var registerVm = new Vue({
     el: '#app',
     data: {
+        status: "",
+        message: "",
         username: "",
         password: "",
         repeatPwd: "",
@@ -27,7 +29,15 @@ var registerVm = new Vue({
                 console.log(data);
                 this.$http.post('/register/register', data).then(
                     function(response) {
-                        console.log(response.data);
+                        if (response.data.status == 1) {
+                            app.status = "Success!";
+                            app.message = "Register successfully!";
+                            $('#warning').modal({});
+                        } else if (response.data.status == 0) {
+                            app.status = "Error!";
+                            app.message = `Something wrong while following ${response.data.msg}`;
+                            $('#warning').modal({});
+                        }
                     },
                     function(err) {
                         console.log(err);
