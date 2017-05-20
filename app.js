@@ -15,7 +15,7 @@ var NN = require('./dataProcess');
 /**
  * Get port from environment and store in Express.
  */
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '80');
 
 var app = express();
 /**
@@ -51,12 +51,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-//io
+//io-session
 io.use(function(socket, next) {
     sessionMiddleware(socket.request, socket.request.res, next);
 });
 // session
-app.use(sessionMidddleware);
+app.use(sessionMiddleware);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
