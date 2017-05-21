@@ -28,17 +28,18 @@ var server = http.createServer(app);
 var io = require('socket.io')(server);
 
 // session
+var sessionStorage = new MongoStore({ url: 'mongodb://127.0.0.1:27017/pm' });
 var sessionMiddleware = session({
     // secret is like private key
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },
-    store: new MongoStore({ url: 'mongodb://127.0.0.1:27017/pm' })
+    store: sessionStorage
 });
 
 app.set('port', port);
-
+//run nn
 NN.init();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -53,7 +54,28 @@ app.use(cookieParser());
 
 //io-session
 io.use(function(socket, next) {
-    sessionMiddleware(socket.request, socket.request.res, next);
+    // console.log(socket.handshake.query.sid);
+
+    // console.log(sessionStorage.getItem(socket.handshake.query.sid));
+    sessionStorage.get(socket.handshake.query.sessionID, function(err, session) {
+        if (err) {
+            console.log("Err:" + err);
+            socket.request.session = {};
+            next();
+        } else {
+            console.log("get session");
+            if (session) {
+                socket.request.session = session;
+                next();
+            } else {
+                console.log("Err:" + "No session");
+                socket.request.session = {};
+                next();
+            }
+        }
+    });
+    // socket.request.session = sessionStorage.getItem(socket.handshake.query.sid);
+    // sessionMiddleware(socket.request, socket.request.res, next);
 });
 // session
 app.use(sessionMiddleware);
@@ -102,6 +124,11 @@ app.use(function(err, req, res, next) {
 
 io.on('connection', function(socket) {
     console.log('a user connected');
+    if (!socket.request.session.username) {
+        socket.emit('nosession');
+    } else {
+        console.log(socket.request.session.username + "Get into the Server");
+    }
     socket.on('disconnect', function() {
         console.log('user disconnected');
     });
@@ -151,7 +178,6 @@ io.on('connection', function(socket) {
                         }
                     })
                     // console.log(Data);
-
                 socket.emit('dataArrive', JSON.stringify(Data));
             }
         });
