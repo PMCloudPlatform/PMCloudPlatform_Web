@@ -52,6 +52,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// test
+app.use(function(req, res, next) {
+    console.log(req.cookies);
+
+    next();
+});
+
 //io-session
 io.use(function(socket, next) {
     // console.log(socket.handshake.query.sid);
@@ -126,62 +133,70 @@ io.on('connection', function(socket) {
     console.log('a user connected');
     if (!socket.request.session.username) {
         socket.emit('nosession');
+        //专门为地图设置
+        socket.on('requireData', function(index) {
+            console.log('requiring data~~~');
+            var Data = [];
+            var speed = 50;
+            db.findData({}, index * speed, speed, function(err, result) {
+                // console.log(result);
+                // console.log(index);
+                if (result == undefined) {
+                    console.log('Error');
+                } else if (result.length == 0) {
+                    console.log('Load finished');
+                } else {
+                    result.forEach(function(e) {
+                            if (e.LOT != undefined && e.LAT != undefined && e.PM != undefined && e.TIME != undefined) {
+                                // console.log(e.LOT);
+                                Data.push({
+                                    "type": "Feature",
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [e.LOT + Math.random() * 0.0001, e.LAT + Math.random() * 0.0001]
+                                    },
+                                    "properties": {
+                                        "size": e.PM,
+                                        "description": '<strong>PM2.5</strong><p>LOT:' + e.LOT.toString() + '</p><p>LAT:' + e.LAT.toString() + '</p><p>time:' + Date(e.TIME).toString() + '</p><p>PM2.5:' + e.PM.toString() + '</p>'
+                                    }
+                                })
+                            }
+                        })
+                        // console.log(Data);
+                    socket.emit('dataArrive', JSON.stringify(Data));
+                }
+            });
+        })
     } else {
         console.log(socket.request.session.username + "Get into the Server");
+        socket.join(socket.request.session.username);
+        socket.on('senddata', function(json) {
+            console.log('receive data...');
+            // console.log(jsonString);
+            try {
+                data = json;
+                data.username = socket.request.session.username;
+                // console.log(data);
+                if (data.LOT != undefined && data.LAT != undefined && data.PM != undefined && data.TIME != undefined) {
+                    db.insert(data);
+                } else {
+                    console.log("receive error data!");
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        });
+
+        socket.on('notify', function(data) {
+            if (data.type == 1) {
+                socket.to(socket.request.session.username).emit('popData', data);
+            }
+        });
     }
+
     socket.on('disconnect', function() {
         console.log('user disconnected');
     });
-
-    socket.on('senddata', function(jsonString) {
-        console.log('receive data...');
-        // console.log(jsonString);
-        try {
-            data = JSON.parse(jsonString);
-            console.log(data);
-            if (data.LOT != undefined && data.LAT != undefined && data.PM != undefined && data.TIME != undefined) {
-                db.insert(data);
-            } else {
-                console.log("receive error data!");
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    })
-
-    socket.on('requireData', function(index) {
-        console.log('requiring data~~~');
-        var Data = [];
-        var speed = 50;
-        db.findData({}, index * speed, speed, function(err, result) {
-            // console.log(result);
-            // console.log(index);
-            if (result == undefined) {
-                console.log('Error');
-            } else if (result.length == 0) {
-                console.log('Load finished');
-            } else {
-                result.forEach(function(e) {
-                        if (e.LOT != undefined && e.LAT != undefined && e.PM != undefined && e.TIME != undefined) {
-                            // console.log(e.LOT);
-                            Data.push({
-                                "type": "Feature",
-                                "geometry": {
-                                    "type": "Point",
-                                    "coordinates": [e.LOT + Math.random() * 0.0001, e.LAT + Math.random() * 0.0001]
-                                },
-                                "properties": {
-                                    "size": e.PM,
-                                    "description": '<strong>PM2.5</strong><p>LOT:' + e.LOT.toString() + '</p><p>LAT:' + e.LAT.toString() + '</p><p>time:' + Date(e.TIME).toString() + '</p><p>PM2.5:' + e.PM.toString() + '</p>'
-                                }
-                            })
-                        }
-                    })
-                    // console.log(Data);
-                socket.emit('dataArrive', JSON.stringify(Data));
-            }
-        });
-    })
 });
 
 server.listen(port);

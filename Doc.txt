@@ -1,0 +1,25 @@
+关于登陆：
+手机端和单片机端都需要登陆，登陆请访问：url/login/login, 方式为post，提交数据{
+    username：用户名，
+    password: 密码
+}
+
+服务器会返回成功或者失败的消息{
+    status：0：失败，1：成功，
+    msg：失败原因。（成功时返回‘Seccessful’）
+}
+根据返回信息即可知道是否登陆成功，如果成功后，系统会将username放到对应的session中，所以需要从Cookie中获取sessionID
+一般解析好的Cookie应该是这个样子，
+{ 'connect.sid': 's:ZXSCUzU0LY0IIoovPxxQm1jENTdssWDl.uR1dbyCvn5X8nD8uZ1cr6ERoAO4OwuR4ub8ONF4K5Xk' }
+其中这个
+ZXSCUzU0LY0IIoovPxxQm1jENTdssWDl
+就是需要的sessionID
+不太清楚后面那一串是干啥的，可能也有啥用？
+将这个sessionID附着到socket.io的路径中，例如
+var socket = io('http://127.0.0.1/?sessionID=3RyZ4y3XjcsgHKxKCzymgCYMizMReSrO');
+（这是nodejs的写法，java需要类比）
+就可以将session传给服务器，也就是相当于登陆了socket.io
+这样之后的通讯都将可以使用username。
+
+单片机和手机同时登陆后，就可以利用socket.io的不同事件来传递消息
+具体事件可以再商量。

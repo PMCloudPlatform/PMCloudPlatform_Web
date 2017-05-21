@@ -21,7 +21,6 @@ function login(req, res, next) {
     var user = {};
     user.username = req.body.username;
     user.password = sha1(req.body.password);
-    console.log("!");
     db.find(user, 'user', function(err, result) {
         if (err) {
             console.log("Error:" + err);
