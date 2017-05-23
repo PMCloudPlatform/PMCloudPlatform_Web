@@ -17,10 +17,14 @@ function data(req, res, next) {
 function reData(req, res, next) {
     var Data = [];
     if (req.query.quantity == undefined) {
-        res.send(JSON.stringify([]));
+        res.send([]);
         return;
     }
-    db.find({ TIME: { $gt: Number(req.query.time) } }, 0, Number(req.query.quantity), function(err, result) {
+    if (req.query.time == NaN) {
+        res.send([]);
+        return;
+    }
+    db.findData({ TIME: { $gt: Number(req.query.time) } }, 0, Number(req.query.quantity), function(err, result) {
         console.log(result);
         if (result == undefined) {
             console.log('Error');
@@ -39,9 +43,9 @@ function reData(req, res, next) {
                 }
             });
         }
-        res.send(JSON.stringify(Data));
-    })
-    return;
+        res.send(Data);
+        return;
+    });
 }
 
 module.exports = router;

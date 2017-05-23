@@ -23,3 +23,6 @@ var socket = io('http://127.0.0.1/?sessionID=3RyZ4y3XjcsgHKxKCzymgCYMizMReSrO');
 
 单片机和手机同时登陆后，就可以利用socket.io的不同事件来传递消息
 具体事件可以再商量。
+
+
+

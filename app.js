@@ -53,11 +53,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // test
-app.use(function(req, res, next) {
-    console.log(req.cookies);
-
-    next();
-});
+// app.use(function(req, res, next) {
+//     console.log(req.cookies);
+//     next();
+// });
 
 //io-session
 io.use(function(socket, next) {

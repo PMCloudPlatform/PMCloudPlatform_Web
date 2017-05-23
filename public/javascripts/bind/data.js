@@ -15,7 +15,7 @@ var app = new Vue({
             console.log(datetimestamp);
             this.$http.get('/data/requireData?time=' + datetimestamp + '&quantity=' + this.quantity).then(
                 function(response) {
-                    listVM.items = JSON.parse(response.data);
+                    listVM.items = response.data;
                     // app.statusClass = 'btn-success';
                     app.isDisable = false;
                     // console.log(listVM.items);
