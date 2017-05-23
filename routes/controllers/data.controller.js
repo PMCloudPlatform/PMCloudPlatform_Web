@@ -7,7 +7,11 @@ router.get('/', data);
 router.get('/requireData', reData);
 
 function data(req, res, next) {
-    res.render('data', { title: 'pm2.5 cloud platform' })
+    if (req.session.username) {
+        res.render('data', { title: 'pm2.5 cloud platform' });
+    } else {
+        res.redirect('/login');
+    }
 }
 
 function reData(req, res, next) {
@@ -33,7 +37,7 @@ function reData(req, res, next) {
                         "TIME": e.TIME
                     })
                 }
-            })
+            });
         }
         res.send(JSON.stringify(Data));
     })
