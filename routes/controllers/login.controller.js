@@ -19,6 +19,7 @@ function index(req, res, next) {
 
 function login(req, res, next) {
     var user = {};
+    console.log(req.body);
     user.username = req.body.username;
     user.password = sha1(req.body.password);
     db.find(user, 'user', function(err, result) {
