@@ -31,8 +31,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="/comm">Predict</a></li>
-                    <li><a href="/data">Search</a></li>
+                    <li><a href="/comm">Predict</a></li>
+                    <li class="active"><a href="/data">Search</a></li>
                     <li><a href="/map">Map</a></li>
                     <li><a href="#">About us</a></li>
                     <li><a href="/home"><span class="visible-sm visible-xs">Settings<span class="fui-gear"></span></span><span class="visible-md visible-lg"><span class="fui-gear"></span></span></a></li>
@@ -43,48 +43,59 @@
     </div>
     <div class="container">
         <div class="panel panel-default ">
-            <div class="panel-heading "><a href="#">PM2.5预测</a></div>
+            <div class="panel-heading "><a href="#">用户状态</a></div>
             <div class="panel-body">
                 <form id="selector" class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label for="timeInput" class="col-lg-2 control-label">查询时间段</label>
+                        <label for="timeInput" class="col-lg-2 control-label">登陆用户</label>
                         <div class="col-lg-10">
-                            <div class='input-group date' id='timeInput'>
-                                <input type='text' class="form-control" />
+                            <div class='input-group' id='timeInput'>
                                 <span class="input-group-addon">  
-                    <span class="glyphicon glyphicon-calendar"></span>
+                    <span class="glyphicon glyphicon-user"></span>
                                 </span>
+                                <p class="form-control flat">
+                                    <%=username %>
+                                </p>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="lotInput" class="col-lg-2 control-label">查询经度</label>
+                        <label for="quantityInput" class="col-lg-2 control-label">查询数量</label>
                         <div class="col-lg-10">
-                            <input type="text" id="lotInput" class="form-control" name="username" v-model.number="lot" />
+                            <input type="text" id="quantityInput" class="form-control" name="username" v-model.number="quantity" />
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="latInput" class="col-lg-2 control-label">查询纬度</label>
-                        <div class="col-lg-10">
-                            <input type="text" id="latInput" class="form-control" name="username" v-model.number="lat" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="searchBtn" class="sr-only">button</label>
+                        <label for="submitBtn" class="sr-only">查询按钮</label>
                         <div class="col-lg-10 col-lg-offset-2">
-                            <input id="searchBtn" type="button" class="btn btn-block" :class="statusClass" :disabled="isDisable" @click="searchData" value="search"></input>
+                            <button id="submitBtn" type="button" class="btn btn-block" :class="statusClass" :disabled="isDisable" @click="searchData">search</button>
                         </div>
                     </div>
                 </form>
-                <div id="showBox">
-                    <p class="text-center">{{ predictResult }}</p>
+                <div class="table-responsive">
+                    <table id="showList" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>时间</th>
+                                <th>经度</th>
+                                <th>纬度</th>
+                                <th>pm含量</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in items">
+                                <td>{{ (new Date(item.TIME)).toString() }}</td>
+                                <td>{{ item.LOT }}</td>
+                                <td>{{ item.LAT }}</td>
+                                <td>{{ item.PM }}</td>
+                                <!-- LOT:{{ item.LOT }}.LAT:{{ item.LAT }}.PM:{{ item.PM }} -->
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-
     </div>
-
-
 
     <script src="/javascripts/jquery.js "></script>
     <script src="/javascripts/flat-ui.js "></script>
@@ -92,15 +103,8 @@
     <script src="/javascripts/application.js"></script>
     <!-- this is the bind scripts -->
     <!-- 注意bind的js必须放在页面的最后 -->
-    <script src="/javascripts/bind/comm.js"></script>
+    <script src="/javascripts/bind/data.js"></script>
     <script type="text/javascript">
-        $(function() {
-            $('#timeInput').datetimepicker({
-                locale: 'zh-cn',
-                autoclose: true,
-                pickerPosition: "bottom-left"
-            });
-        });
     </script>
 </body>
 

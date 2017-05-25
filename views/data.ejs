@@ -35,58 +35,63 @@
                     <li class="active"><a href="/data">Search</a></li>
                     <li><a href="/map">Map</a></li>
                     <li><a href="#">About us</a></li>
-                    <li><a href="#"><span class="visible-sm visible-xs">Settings<span class="fui-gear"></span></span><span class="visible-md visible-lg"><span class="fui-gear"></span></span></a></li>
+                    <li><a href="/home"><span class="visible-sm visible-xs">Settings<span class="fui-gear"></span></span><span class="visible-md visible-lg"><span class="fui-gear"></span></span></a></li>
                 </ul>
             </div>
             <!--/.nav-collapse -->
         </div>
     </div>
     <div class="container">
-        <form id="selector" class="form-horizontal" role="form">
-            <div class="form-group">
-                <label for="timeInput" class="col-lg-2 control-label">查询时间段</label>
-                <div class="col-lg-10">
-                    <div class='input-group date' id='timeInput'>
-                        <input type='text' class="form-control" />
-                        <span class="input-group-addon">  
+        <div class="panel panel-default ">
+            <div class="panel-heading "><a href="#">检索数据</a></div>
+            <div class="panel-body">
+                <form id="selector" class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="timeInput" class="col-lg-2 control-label">查询时间段</label>
+                        <div class="col-lg-10">
+                            <div class='input-group date' id='timeInput'>
+                                <input type='text' class="form-control" />
+                                <span class="input-group-addon">  
                     <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
+                                </span>
+                            </div>
+                        </div>
                     </div>
+                    <div class="form-group">
+                        <label for="quantityInput" class="col-lg-2 control-label">查询数量</label>
+                        <div class="col-lg-10">
+                            <input type="text" id="quantityInput" class="form-control" name="username" v-model.number="quantity" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="submitBtn" class="sr-only">查询按钮</label>
+                        <div class="col-lg-10 col-lg-offset-2">
+                            <button id="submitBtn" type="button" class="btn btn-block" :class="statusClass" :disabled="isDisable" @click="searchData">search</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="table-responsive">
+                    <table id="showList" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>时间</th>
+                                <th>经度</th>
+                                <th>纬度</th>
+                                <th>pm含量</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in items">
+                                <td>{{ (new Date(item.TIME)).toString() }}</td>
+                                <td>{{ item.LOT }}</td>
+                                <td>{{ item.LAT }}</td>
+                                <td>{{ item.PM }}</td>
+                                <!-- LOT:{{ item.LOT }}.LAT:{{ item.LAT }}.PM:{{ item.PM }} -->
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="quantityInput" class="col-lg-2 control-label">查询数量</label>
-                <div class="col-lg-10">
-                    <input type="text" id="quantityInput" class="form-control" name="username" v-model.number="quantity" />
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="submitBtn" class="sr-only">查询按钮</label>
-                <button id="submitBtn" type="submit" v-bind:class="[baseClass, statusClass]" v-bind:disabled="isDisable" v-on:click="searchData">search</button>
-            </div>
-        </form>
-    </div>
-    <div class="container">
-        <div class="table-responsive">
-            <table id="showList" class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>时间</th>
-                        <th>经度</th>
-                        <th>纬度</th>
-                        <th>pm含量</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="item in items">
-                        <td>{{ (new Date(item.TIME)).toString() }}</td>
-                        <td>{{ item.LOT }}</td>
-                        <td>{{ item.LAT }}</td>
-                        <td>{{ item.PM }}</td>
-                        <!-- LOT:{{ item.LOT }}.LAT:{{ item.LAT }}.PM:{{ item.PM }} -->
-                    </tr>
-                </tbody>
-            </table>
         </div>
     </div>
 

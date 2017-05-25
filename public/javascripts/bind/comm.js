@@ -4,7 +4,6 @@ var app = new Vue({
         lot: 0,
         lat: 0,
         isDisable: false,
-        baseClass: 'btn btn-block',
         statusClass: 'btn-primary',
         loopEvent: 0
     },

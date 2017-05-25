@@ -168,6 +168,7 @@ io.on('connection', function(socket) {
         })
     } else {
         console.log(socket.request.session.username + "Get into the Server");
+        socket.emit("hassession");
         socket.join(socket.request.session.username);
         socket.on('senddata', function(json) {
             console.log('receive data...');

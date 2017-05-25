@@ -17,19 +17,6 @@
     <!--Flat UI-->
     <link href="/stylesheets/flat-ui.css" rel="stylesheet">
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <style>
-        body {
-            margin: 0;
-            padding-top: 50px;
-        }
-        
-        #map {
-            position: absolute;
-            top: 50px;
-            bottom: 0;
-            width: 100%;
-        }
-    </style>
 </head>
 
 <body>
@@ -48,7 +35,7 @@
                     <li><a href="/data">Search</a></li>
                     <li class="active"><a href="/map">Map</a></li>
                     <li><a href="#">About us</a></li>
-                    <li><a href="#"><span class="visible-sm visible-xs">Settings<span class="fui-gear"></span></span><span class="visible-md visible-lg"><span class="fui-gear"></span></span></a></li>
+                    <li><a href="/home"><span class="visible-sm visible-xs">Settings<span class="fui-gear"></span></span><span class="visible-md visible-lg"><span class="fui-gear"></span></span></a></li>
                 </ul>
             </div>
             <!--/.nav-collapse -->
@@ -200,7 +187,6 @@
             socket.emit('requireData', index);
         })
     </script>
-
 </body>
 
 </html>
