@@ -23,8 +23,8 @@ var app = new Vue({
         register: function() {
             if (this.password == this.repeatPwd) {
                 var data = {
-                    "uname": this.username,
-                    "upwd": this.password
+                    "username": this.username,
+                    "password": this.password
                 };
                 console.log(data);
                 this.$http.post('/register/register', data).then(

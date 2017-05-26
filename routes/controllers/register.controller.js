@@ -21,8 +21,8 @@ function main(req, res, next) {
 function register(req, res, next) {
     console.log(req.body.uname);
     var info = {};
-    info.username = req.body.uname;
-    info.password = sha1(req.body.upwd);
+    info.username = req.body.username;
+    info.password = sha1(req.body.password);
     db.find({ username: info["username"] }, 'user', function(err, result) {
             if (err) {
                 console.log("Error:" + err);
