@@ -189,6 +189,8 @@ io.on('connection', function(socket) {
 
         socket.on('notify', function(data) {
             if (data.type == 1) {
+                socket.to(socket.request.session.username).emit('alarm');
+            } else if (data.type == 2) {
                 socket.to(socket.request.session.username).emit('popData', data);
             }
         });
