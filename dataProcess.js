@@ -47,7 +47,7 @@ NNpredictor.loopTask = function() {
 
 
 function createDataSet() {
-    db.find({}, allCount, dataInterval, function(err, result) {
+    db.findData({}, allCount, dataInterval, function(err, result) {
         // console.log(result);
         // console.log(index);
         if (result == undefined) {
