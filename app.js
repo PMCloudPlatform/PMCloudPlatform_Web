@@ -188,6 +188,7 @@ io.on('connection', function(socket) {
         });
 
         socket.on('notify', function(data) {
+            console.log("Notify event!");
             if (data.type == 1) {
                 socket.to(socket.request.session.username).emit('alarm');
             } else if (data.type == 2) {
