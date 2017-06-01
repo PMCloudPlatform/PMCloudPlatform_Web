@@ -181,14 +181,15 @@ io.on('connection', function(socket) {
             console.log('receive data...');
             // console.log(jsonString);
             try {
-                data = json;
-                data.username = socket.request.session.username;
-                // console.log(data);
-                if (data.LOT != undefined && data.LAT != undefined && data.PM != undefined && data.TIME != undefined) {
-                    db.insert(data, "data");
-                } else {
-                    console.log("receive error data!");
-                }
+                console.log(JSON.stringify(json));
+                // data = json;
+                // data.username = socket.request.session.username;
+                // // console.log(data);
+                // if (data.LOT != undefined && data.LAT != undefined && data.PM != undefined && data.TIME != undefined) {
+                //     db.insert(data, "data");
+                // } else {
+                //     console.log("receive error data!");
+                // }
             } catch (err) {
                 console.log(err);
             }
