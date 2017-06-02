@@ -23,9 +23,15 @@ function homepage(req, res, next) {
         res.redirect('/login');
         return;
     } else {
+        if (req.io[session.username]) {
+            online = req.io[session.username];
+        } else {
+            online = 0;
+        }
         res.render('home', {
             title: 'pm2.5 cloud platform',
-            username: session.username
+            username: session.username,
+            onlineDevice: online
         })
     }
 }

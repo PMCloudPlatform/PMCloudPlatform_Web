@@ -38,6 +38,8 @@ var sessionMiddleware = session({
     store: sessionStorage
 });
 
+var roomCount = {};
+
 app.set('port', port);
 //run nn
 NN.init();
@@ -57,6 +59,12 @@ app.use(cookieParser());
 //     console.log(req.cookies);
 //     next();
 // });
+app.use(function(req, res, next) {
+    req.io = {
+        room: roomCount
+    };
+    next();
+});
 
 //io-session
 io.use(function(socket, next) {
@@ -177,6 +185,11 @@ io.on('connection', function(socket) {
 
         // test
         socket.join(socket.request.session.username);
+        if (roomCount[socket.request.session.username]) {
+            roomCount[socket.request.session.username] += 1;
+        } else {
+            roomCount[socket.request.session.username] = 1;
+        }
         socket.on('senddata', function(json) {
             console.log('receive data...');
             // console.log(jsonString);

@@ -60,39 +60,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="quantityInput" class="col-lg-2 control-label">查询数量</label>
+                        <label for="quantityInput" class="col-lg-2 control-label">在线设备</label>
                         <div class="col-lg-10">
-                            <input type="text" id="quantityInput" class="form-control" name="username" v-model.number="quantity" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="submitBtn" class="sr-only">查询按钮</label>
-                        <div class="col-lg-10 col-lg-offset-2">
-                            <button id="submitBtn" type="button" class="btn btn-block" :class="statusClass" :disabled="isDisable" @click="searchData">search</button>
+                            <p type="text" id="quantityInput" class="form-control">
+                                <%=onlineDevice %>
+                            </p>
                         </div>
                     </div>
                 </form>
-                <div class="table-responsive">
-                    <table id="showList" class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>时间</th>
-                                <th>经度</th>
-                                <th>纬度</th>
-                                <th>pm含量</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="item in items">
-                                <td>{{ (new Date(item.TIME)).toString() }}</td>
-                                <td>{{ item.LOT }}</td>
-                                <td>{{ item.LAT }}</td>
-                                <td>{{ item.PM }}</td>
-                                <!-- LOT:{{ item.LOT }}.LAT:{{ item.LAT }}.PM:{{ item.PM }} -->
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </div>
     </div>
@@ -103,7 +78,7 @@
     <script src="/javascripts/application.js"></script>
     <!-- this is the bind scripts -->
     <!-- 注意bind的js必须放在页面的最后 -->
-    <script src="/javascripts/bind/data.js"></script>
+    <!--<script src="/javascripts/bind/data.js"></script>-->
     <script type="text/javascript">
     </script>
 </body>
