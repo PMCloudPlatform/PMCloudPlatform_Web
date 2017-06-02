@@ -216,6 +216,16 @@ io.on('connection', function(socket) {
                 socket.to(socket.request.session.username).emit('popData', data);
             }
         });
+
+        socket.on('getpm', function() {
+            console.log("Getpm event!");
+            socket.to(socket.request.session.username).emit('getpm');
+        });
+
+        socket.on('setpm', function(data) {
+            console.log("Setpm event!" + JSON.stringify(data));
+            socket.to(socket.request.session.username).emit('setpm', data);
+        });
     }
 
     socket.on('disconnect', function() {
