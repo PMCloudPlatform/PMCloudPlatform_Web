@@ -1,5 +1,5 @@
 var io = require('socket.io-client');
-var socket = io('http://127.0.0.1/?sessionID=3RyZ4y3XjcsgHKxKCzymgCYMizMReSrO');
+var socket = io('http://45.63.50.188/?sessionID=kfr8IGHVTcjmep0Oo3lfRTORzt1_xAe4');
 // var socket = io('http://127.0.0.1/');
 
 // console.log(socket);
@@ -12,6 +12,26 @@ socket.on('nosession', function() {
     socket.close();
 })
 
+socket.on('hassession', function() {
+    console.log('Connected!');
+    process.stdin.setEncoding('utf8');
+    process.stdin.on('readable', () => {
+        var chunk = process.stdin.read();
+        if (chunk !== null) {
+            process.stdout.write(chunk);
+            socket.emit('notify', {
+                type: 1,
+                data: {
+                    test: "test409123"
+                }
+            });
+        }
+    });
+
+    process.stdin.on('end', () => {
+        process.stdout.write('end');
+    });
+});
 
 
 

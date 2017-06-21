@@ -61,10 +61,10 @@ function createDataSet() {
                 console.log(err.stack);
             });
             result.forEach(function(e) {
-                if (e.LOT != undefined && e.LAT != undefined && e.PM != undefined && e.TIME != undefined) {
+                if (e.humiditydata != undefined && e.temporarydata != undefined && e.pmdata != undefined && e.lightdata != undefined && e.timestamp != undefined && e.longtitude != undefined && e.latitude != undefined) {
                     data = [];
-                    console.log(e.TIME);
-                    pmDate = new Date(e.TIME);
+                    console.log(e.timestamp);
+                    pmDate = new Date(e.timestamp);
                     console.log(pmDate);
                     data[0] = pmDate.getHours() / 24;
                     data[1] = 0;
