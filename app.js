@@ -201,14 +201,14 @@ io.on('connection', function(socket) {
             // console.log(jsonString);
             try {
                 console.log(JSON.stringify(json));
-                // data = json;
-                // data.username = socket.request.session.username;
-                // // console.log(data);
-                // if (data.LOT != undefined && data.LAT != undefined && data.PM != undefined && data.TIME != undefined) {
-                //     db.insert(data, "data");
-                // } else {
-                //     console.log("receive error data!");
-                // }
+                data = json;
+                data.username = socket.request.session.username;
+                // console.log(data);
+                if (data.humiditydata != undefined && data.temporarydata != undefined && data.pmdata != undefined && data.lightdata != undefined && data.timestamp != undefined && data.longtitude != undefined && data.latitude != undefined) {
+                    db.insert(data, "data");
+                } else {
+                    console.log("receive error data!");
+                }
             } catch (err) {
                 console.log(err);
             }
@@ -251,6 +251,7 @@ io.on('connection', function(socket) {
         });
 
         socket.on("clock", function(data) {
+            console.log(data);
             socket.to(socket.request.session.username).emit('clock', data);
         });
     }
