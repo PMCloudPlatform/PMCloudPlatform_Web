@@ -245,6 +245,9 @@ io.on('connection', function(socket) {
 
         socket.on("thres", function(data) {
             console.log(data);
+            socket.to(socket.request.session.username).emit('thres', {
+                threshold: Number(data)
+            });
         });
 
         socket.on("clock", function(data) {
