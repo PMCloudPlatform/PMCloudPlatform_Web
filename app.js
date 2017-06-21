@@ -243,9 +243,13 @@ io.on('connection', function(socket) {
             });
         });
 
+        socket.on("thres", function(data) {
+            console.log(data);
+        });
+
         socket.on("clock", function(data) {
             socket.to(socket.request.session.username).emit('clock', data);
-        })
+        });
     }
 
     socket.on('disconnect', function() {
