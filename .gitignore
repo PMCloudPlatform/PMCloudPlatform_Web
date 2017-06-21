@@ -41,3 +41,6 @@ test*
 
 #hidden file
 .*
+
+checkpoint
+model.ckpt*

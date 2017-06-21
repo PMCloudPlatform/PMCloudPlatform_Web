@@ -1,8 +1,8 @@
 var fs = require('fs');
 var cp = require('child_process');
 var pred = {};
-var dataSetFile = 'testdata.txt';
-var predFile = "predict.exe";
+var dataSetFile = 'testdata.csv';
+var predFile = "python predict.py";
 
 pred.lock = false;
 pred.predFile = predFile;
@@ -24,16 +24,16 @@ pred.runPrediction = function(lot, lat, time, callback) {
     data[3] = lot;
     data[3] = data[3] / 360;
     // pred.lock = true;
-    fs.writeFileSync(dataSetFile, data.join(" ") + '\n');
+    fs.writeFileSync(dataSetFile, data.join(",") + '\n');
     if (pred.lock == true) {
         var begin = setInterval(function() {
             if (pred.lock == false) {
                 clearInterval(begin);
                 runPredExec();
-            } else {
-                runPredExec()
             }
         }, 1000);
+    } else {
+        runPredExec();
     }
 }
 

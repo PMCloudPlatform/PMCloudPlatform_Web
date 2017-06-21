@@ -4,8 +4,8 @@ var cp = require('child_process');
 var pred = require('./predProcess');
 var allCount = 0;
 var dataInterval = 100;
-var dataSetFile = 'data.txt';
-var trainFile = "train.exe";
+var dataSetFile = 'data.csv';
+var trainFile = "python train.py";
 var loopTaskNum = 0;
 
 var NNpredictor = {};
@@ -73,30 +73,90 @@ function createDataSet() {
                     }
                     data[1] += pmDate.getDate();
                     data[1] = data[1] / 365;
-                    data[2] = e.LAT;
+                    data[2] = e.longtitude;
                     data[2] = data[2] / 180
-                    data[3] = e.LOT;
-                    data[3] = data[3] / 360
-
-                    if (e.PM >= 0 && e.PM < 75) {
-                        data[4] = 1;
-
-                    } else if (e.PM >= 75 && e.PM < 150) {
-                        data[4] = 2;
-
-                    } else if (e.PM >= 150 && e.PM < 300) {
-                        data[4] = 3;
-
-                    } else if (e.PM >= 300 && e.PM < 1050) {
-                        data[4] = 4;
-
-                    } else if (e.PM >= 1050 && e.PM < 3000) {
-                        data[4] = 5;
-
+                    data[3] = e.latitude;
+                    data[3] = data[3] / 360;
+                    data[4] = e.humiditydata;
+                    data[4] = data[4] / 100;
+                    data[5] = e.temporarydata;
+                    data[5] = data[5] / 100;
+                    data[6] = e.lightdata;
+                    data[6] = data[6] / 1000;
+                    if (e.pmdata >= 0 && e.pmdata < 35) {
+                        data[7] = 1;
+                        data[8] = 0;
+                        data[9] = 0;
+                        data[10] = 0;
+                        data[11] = 0;
+                        data[12] = 0;
+                        data[13] = 0;
+                        data[14] = 0;
+                    } else if (e.pmdata >= 35 && e.pmdata < 75) {
+                        data[7] = 0;
+                        data[8] = 1;
+                        data[9] = 0;
+                        data[10] = 0;
+                        data[11] = 0;
+                        data[12] = 0;
+                        data[13] = 0;
+                        data[14] = 0;
+                    } else if (e.pmdata >= 75 && e.pmdata < 115) {
+                        data[7] = 0;
+                        data[8] = 0;
+                        data[9] = 1;
+                        data[10] = 0;
+                        data[11] = 0;
+                        data[12] = 0;
+                        data[13] = 0;
+                        data[14] = 0;
+                    } else if (e.pmdata >= 115 && e.pmdata < 150) {
+                        data[7] = 0;
+                        data[8] = 0;
+                        data[9] = 0;
+                        data[10] = 1;
+                        data[11] = 0;
+                        data[12] = 0;
+                        data[13] = 0;
+                        data[14] = 0;
+                    } else if (e.pmdata >= 150 && e.pmdata < 250) {
+                        data[7] = 0;
+                        data[8] = 0;
+                        data[9] = 0;
+                        data[10] = 0;
+                        data[11] = 1;
+                        data[12] = 0;
+                        data[13] = 0;
+                        data[14] = 0;
+                    } else if (e.pmdata >= 250 && e.pmdata < 350) {
+                        data[7] = 0;
+                        data[8] = 0;
+                        data[9] = 0;
+                        data[10] = 0;
+                        data[11] = 0;
+                        data[12] = 1;
+                        data[13] = 0;
+                        data[14] = 0;
+                    } else if (e.pmdata >= 350 && e.pmdata < 500) {
+                        data[7] = 0;
+                        data[8] = 0;
+                        data[9] = 0;
+                        data[10] = 0;
+                        data[11] = 0;
+                        data[12] = 0;
+                        data[13] = 1;
+                        data[14] = 0;
                     } else {
-                        data[4] = 6;
+                        data[7] = 0;
+                        data[8] = 0;
+                        data[9] = 0;
+                        data[10] = 0;
+                        data[11] = 0;
+                        data[12] = 0;
+                        data[13] = 0;
+                        data[14] = 1;
                     }
-                    writerStream.write(data.join(" ") + '\n', "UTF-8");
+                    writerStream.write(data.join(",") + '\n', "UTF-8");
                 }
             });
             writerStream.end();
