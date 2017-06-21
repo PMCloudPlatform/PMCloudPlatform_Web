@@ -230,17 +230,17 @@ io.on('connection', function(socket) {
 
         socket.on('setpm', function(data) {
             console.log("Setpm event!" + JSON.stringify(data));
-            // socket.to(socket.request.session.username).emit('setpm', data);
+            socket.to(socket.request.session.username).emit('setpm', data);
             // test
-            socket.to(socket.request.session.username).emit('setpm', {
-                humiditydata: "4091",
-                temporarydata: "4092",
-                pmdata: "4093",
-                lightdata: "4094",
-                timestamp: "4095",
-                longtitude: "4096",
-                latitude: "4097"
-            });
+            // socket.to(socket.request.session.username).emit('setpm', {
+            //     humiditydata: "4091",
+            //     temporarydata: "4092",
+            //     pmdata: "4093",
+            //     lightdata: "4094",
+            //     timestamp: "4095",
+            //     longtitude: "4096",
+            //     latitude: "4097"
+            // });
         });
 
         socket.on("thres", function(data) {
