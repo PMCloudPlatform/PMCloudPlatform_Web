@@ -180,7 +180,13 @@ io.on('connection', function(socket) {
         // test
 
         socket.emit("alarm", {
-            test: "test410"
+            humiditydata: "4091",
+            temporarydata: "4092",
+            pmdata: "4093",
+            lightdata: "4094",
+            timestamp: "4095",
+            longtitude: "4096",
+            latitude: "4097"
         });
 
         // test
@@ -226,6 +232,10 @@ io.on('connection', function(socket) {
             console.log("Setpm event!" + JSON.stringify(data));
             socket.to(socket.request.session.username).emit('setpm', data);
         });
+
+        socket.on("clock", function(data) {
+            socket.to(socket.request.session.username).emit('clock', data);
+        })
     }
 
     socket.on('disconnect', function() {
