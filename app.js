@@ -176,7 +176,7 @@ io.on('connection', function(socket) {
                             })
                         }
                     }
-                    // console.log(Data);
+                    console.log(Data);
                     // socket.emit("test");
                     socket.emit('dataArrive', Data);
                 }
