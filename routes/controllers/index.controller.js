@@ -23,8 +23,8 @@ function homepage(req, res, next) {
         res.redirect('/login');
         return;
     } else {
-        if (req.io[session.username]) {
-            online = req.io[session.username];
+        if (req.io.room) {
+            online = req.io.room[session.username];
         } else {
             online = 0;
         }
