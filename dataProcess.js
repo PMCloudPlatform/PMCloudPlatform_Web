@@ -63,9 +63,9 @@ function createDataSet() {
             result.forEach(function(e) {
                 if (e.humiditydata != undefined && e.temporarydata != undefined && e.pmdata != undefined && e.lightdata != undefined && e.timestamp != undefined && e.longtitude != undefined && e.latitude != undefined) {
                     data = [];
-                    console.log(e.timestamp);
+                    // console.log(e.timestamp);
                     pmDate = new Date(e.timestamp);
-                    console.log(pmDate);
+                    // console.log(pmDate);
                     data[0] = pmDate.getHours() / 24;
                     data[1] = 0;
                     for (i = 0; i < pmDate.getMonth(); i++) {
