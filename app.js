@@ -146,8 +146,8 @@ io.on('connection', function(socket) {
             var Data = [];
             var speed = 50;
             db.findData({}, index * speed, speed, function(err, result) {
-                // console.log(result);
-                // console.log(index);
+                console.log(result);
+                console.log(err);
                 if (result == undefined) {
                     console.log('Error');
                 } else if (result.length == 0) {
