@@ -46,6 +46,33 @@ var app = new Vue({
     }
 });
 
+var app = new Vue({
+    el: '#app',
+    methods: {
+        quit: function() {
+            this.$http.post('/quit').then(
+                function(response) {
+                    if (response.data.status == 1) {
+                        app.status = "Success!";
+                        app.message = response.data.msg;
+                        setTimeout(function() {
+                            location.href = '/';
+                        }, 2000);
+                        $('#warning').modal({});
+                    } else if (response.data.status == 0) {
+                        app.status = "Error!";
+                        app.message = `Something wrong while following ERR:${response.data.msg}`;
+                        $('#warning').modal({});
+                    }
+                },
+                function(err) {
+                    console.log(err);
+                }
+            )
+        }
+    }
+})
+
 function checkResult() {
     Vue.http.get('/comm/getResult').then(
         function(response) {

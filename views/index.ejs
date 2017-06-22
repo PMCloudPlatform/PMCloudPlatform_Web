@@ -20,7 +20,7 @@
 
 <body>
     <!-- Fixed navbar -->
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top" id="app">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -34,6 +34,7 @@
                     <li><a href="/map">Map</a></li>
                     <li><a href="#">About us</a></li>
                     <li><a href="/home"><span class="visible-sm visible-xs">Settings<span class="fui-gear"></span></span><span class="visible-md visible-lg"><span class="fui-gear"></span></span></a></li>
+                    <li><a @click="quit"><span class="fui-exit"></span></a></li>
                 </ul>
             </div>
             <!--/.nav-collapse -->
@@ -73,6 +74,34 @@
     <script src="/javascripts/jquery.js "></script>
     <script src="/javascripts/flat-ui.js "></script>
     <script src="/javascripts/application.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            methods: {
+                quit: function() {
+                    this.$http.post('/quit').then(
+                        function(response) {
+                            if (response.data.status == 1) {
+                                app.status = "Success!";
+                                app.message = response.data.msg;
+                                setTimeout(function() {
+                                    location.href = '/';
+                                }, 2000);
+                                $('#warning').modal({});
+                            } else if (response.data.status == 0) {
+                                app.status = "Error!";
+                                app.message = `Something wrong while following ERR:${response.data.msg}`;
+                                $('#warning').modal({});
+                            }
+                        },
+                        function(err) {
+                            console.log(err);
+                        }
+                    )
+                }
+            }
+        })
+    </script>
 </body>
 
 </html>
