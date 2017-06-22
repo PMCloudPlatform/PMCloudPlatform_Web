@@ -177,7 +177,7 @@ io.on('connection', function(socket) {
                         }
                     }
                     // console.log(Data);
-                    socket.emit('dataArrive', Data);
+                    // socket.emit('dataArrive', Data);
                 }
             });
         });
