@@ -164,7 +164,7 @@ io.on('connection', function(socket) {
                                     },
                                     "properties": {
                                         "size": e.pmdata,
-                                        "description": '<strong>环境数据</strong><p>经度:' + e.longtitude.toString() + '</p>\
+                                        "description": `<strong>环境数据 from ${e.username}</strong><p>经度:` + e.longtitude.toString() + '</p>\
                                         <p>纬度:' + e.latitude.toString() + '</p>\
                                         <p>time:' + Date(e.timestamp).toString() + '</p>\
                                         <p>PM2.5:' + e.pmdata.toString() + '</p>\
