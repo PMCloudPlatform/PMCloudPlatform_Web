@@ -26,7 +26,7 @@ labels = tf.reshape(label, [-1, 8])
 
 lr = 1e-3
 # 在训练和测试的时候，我们想用不同的 batch_size.所以采用占位符的方式
-batch_size = tf.placeholder(tf.int32)  # 注意类型必须为 tf.int32
+batch_size = tf.placeholder(tf.int32, [])  # 注意类型必须为 tf.int32
 # batch_size = 128
 
 # 每个时刻的输入特征是28维的，就是每个时刻输入一行，一行有 28 个像素
