@@ -23,9 +23,9 @@ pred.runPrediction = function(lot, lat, time, callback) {
     data[2] = data[2] / 180;
     data[3] = lot;
     data[3] = data[3] / 360;
-    data[4] = 0;
-    data[5] = 0;
-    data[6] = 0;
+    data[4] = 75 / 100;
+    data[5] = 25 / 100;
+    data[6] = 4800 / 20000;
     // 只是为了完成格式
     data[7] = 0;
     data[8] = 0;
@@ -62,6 +62,7 @@ function runPredExec(callback) {
             return;
         }
         fs.readFile("testresult.txt", function(err, data) {
+            console.log(data);
             callback(err, Number(data));
         });
     });

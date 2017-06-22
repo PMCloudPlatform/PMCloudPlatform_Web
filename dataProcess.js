@@ -82,7 +82,7 @@ function createDataSet() {
                     data[5] = e.temporarydata;
                     data[5] = data[5] / 100;
                     data[6] = e.lightdata;
-                    data[6] = data[6] / 1000;
+                    data[6] = data[6] / 20000;
                     if (e.pmdata >= 0 && e.pmdata < 35) {
                         data[7] = 1;
                         data[8] = 0;
