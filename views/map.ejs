@@ -141,7 +141,7 @@
         socket.on('dataArrive', function(jsonData) {
             // console.log(jsonData);
             try {
-                pointData = pointData.concat(jsonData);
+                pointData = pointData.concat(JSON.parse(jsonData));
                 console.log(JSON.stringify(pointData));
             } catch (err) {
                 console.log(err);
