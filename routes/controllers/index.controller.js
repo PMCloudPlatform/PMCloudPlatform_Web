@@ -5,6 +5,22 @@ router.get('/', index);
 
 router.get('/home', homepage);
 
+router.post('/quit', quit);
+
+function quit(req, res, next) {
+    if (req.session.username) {
+        req.session.destroy(function(err) {
+            if (err) {
+                res.json({ status: 0, msg: '退出失败' });
+                return;
+            } else {
+                res.json({ status: 1, msg: '退出成功' });
+                return;
+            }
+        })
+    }
+};
+
 function index(req, res, next) {
     var session = req.session;
     if (!session.username) {
