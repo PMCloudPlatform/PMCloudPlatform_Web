@@ -186,16 +186,13 @@ io.on('connection', function(socket) {
         console.log(socket.request.session.username + "Get into the Server");
         socket.emit("hassession");
         // test
-
-        socket.emit("alarm", {
-            humiditydata: "4091",
-            temporarydata: "4092",
-            pmdata: "4093",
-            lightdata: "4094",
-            timestamp: "4095",
-            longtitude: "4096",
-            latitude: "4097"
-        });
+        db.find({}, 'data', function(err, result) {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            socket.emit("alarm", result[result.length - 1]);
+        })
 
         // test
         socket.join(socket.request.session.username);
