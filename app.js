@@ -139,7 +139,7 @@ app.use(function(err, req, res, next) {
 io.on('connection', function(socket) {
     console.log('a user connected');
     if (!socket.request.session.username) {
-        socket.emit('nosession');
+        // socket.emit('nosession');
         //专门为地图设置
         socket.on('requireData', function(index) {
             console.log('requiring data~~~');
@@ -154,29 +154,29 @@ io.on('connection', function(socket) {
                     console.log('Load finished');
                 } else {
                     result.forEach(function(e) {
-                        if (e.longtitude != undefined && e.latitude != undefined && e.pmdata != undefined && e.timestamp != undefined) {
-                            // console.log(e.longtitude);
-                            Data.push({
-                                "type": "Feature",
-                                "geometry": {
-                                    "type": "Point",
-                                    "coordinates": [e.longtitude + Math.random() * 0.0001, e.latitude + Math.random() * 0.0001]
-                                },
-                                "properties": {
-                                    "size": e.pmdata,
-                                    "description": `<strong>环境数据 from ${e.username}</strong><p>经度:` + e.longtitude.toString() + '</p>\
+                            if (e.longtitude != undefined && e.latitude != undefined && e.pmdata != undefined && e.timestamp != undefined) {
+                                // console.log(e.longtitude);
+                                Data.push({
+                                    "type": "Feature",
+                                    "geometry": {
+                                        "type": "Point",
+                                        "coordinates": [e.longtitude + Math.random() * 0.0001, e.latitude + Math.random() * 0.0001]
+                                    },
+                                    "properties": {
+                                        "size": e.pmdata,
+                                        "description": `<strong>环境数据 from ${e.username}</strong><p>经度:` + e.longtitude.toString() + '</p>\
                                         <p>纬度:' + e.latitude.toString() + '</p>\
                                         <p>time:' + Date(e.timestamp).toString() + '</p>\
                                         <p>PM2.5:' + e.pmdata.toString() + '</p>\
                                         <p>湿度:' + e.humiditydata.toString() + '</p>\
                                         <p>温度:' + e.temporarydata.toString() + '</p>\
                                         <p>光照:' + e.lightdata.toString() + '</p>'
-                                }
-                            })
-                        }
-                    })
-                    console.log(Data);
-                    socket.emit('dataArrive', JSON.stringify(Data));
+                                    }
+                                })
+                            }
+                        })
+                        // console.log(Data);
+                    socket.emit('dataArrive', Data);
                 }
             });
         })
