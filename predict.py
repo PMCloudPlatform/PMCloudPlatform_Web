@@ -15,8 +15,8 @@ key, value = reader.read(filename_queue)
 
 # Default values, in case of empty columns. Also specifies the type of the
 # decoded result.
-record_defaults = [[1], [1], [1], [1], [1], [1],
-                   [1], [1], [1], [1], [1], [1], [1], [1], [1]]
+record_defaults = [[1.0], [1.0], [1.0], [1.0], [1.0], [1.0],
+                   [1.0], [1.0], [1.0], [1.0], [1.0], [1.0], [1.0], [1.0], [1.0]]
 col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13, col14, col15 = tf.decode_csv(
     value, record_defaults=record_defaults)
 feature = tf.stack([col1, col2, col3, col4, col5, col6, col7])
@@ -27,7 +27,8 @@ labels = tf.reshape(label, [-1, 8])
 
 lr = 1e-3
 # 在训练和测试的时候，我们想用不同的 batch_size.所以采用占位符的方式
-batch_size = tf.placeholder(tf.int32)  # 注意类型必须为 tf.int32
+# batch_size = tf.placeholder(tf.int32)  
+batch_size = tf.placeholder(tf.int32, [])# 注意类型必须为 tf.int32
 # batch_size = 128
 
 # 每个时刻的输入特征是28维的，就是每个时刻输入一行，一行有 28 个像素

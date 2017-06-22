@@ -77,15 +77,21 @@
                                 <th>时间</th>
                                 <th>经度</th>
                                 <th>纬度</th>
+                                <th>湿度</th>
+                                <th>温度</th>
+                                <th>光照</th>
                                 <th>pm含量</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="item in items">
-                                <td>{{ (new Date(item.TIME)).toString() }}</td>
-                                <td>{{ item.LOT }}</td>
-                                <td>{{ item.LAT }}</td>
-                                <td>{{ item.PM }}</td>
+                                <td>{{ (new Date(item.timestamp)).toString() }}</td>
+                                <td>{{ item.longtitude }}</td>
+                                <td>{{ item.latitude }}</td>
+                                <td>{{ item.humiditydata }}</td>
+                                <td>{{ item.temporarydata }}</td>
+                                <td>{{ item.lightdata }}</td>
+                                <td>{{ item.pmdata }}</td>
                                 <!-- LOT:{{ item.LOT }}.LAT:{{ item.LAT }}.PM:{{ item.PM }} -->
                             </tr>
                         </tbody>

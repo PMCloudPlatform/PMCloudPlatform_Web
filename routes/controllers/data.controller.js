@@ -24,7 +24,7 @@ function reData(req, res, next) {
         res.send([]);
         return;
     }
-    db.findData({ TIME: { $gt: Number(req.query.time) } }, 0, Number(req.query.quantity), function(err, result) {
+    db.findData({ timestamp: { $gt: Number(req.query.time) } }, 0, Number(req.query.quantity), function(err, result) {
         console.log(result);
         if (result == undefined) {
             console.log('Error');
@@ -32,13 +32,16 @@ function reData(req, res, next) {
             console.log('Load finished');
         } else {
             result.forEach(function(e) {
-                if (e.LOT != undefined && e.LAT != undefined && e.PM != undefined && e.TIME != undefined) {
-                    // console.log(e.LOT);
+                if (e.longtitude != undefined && e.latitude != undefined && e.pmdata != undefined && e.timestamp != undefined && e.humiditydata != undefined && e.temporarydata != undefined && e.lightdata != undefined) {
+                    // console.log(e.longtitude);
                     Data.push({
-                        "LOT": e.LOT,
-                        "LAT": e.LAT,
-                        "PM": e.PM,
-                        "TIME": e.TIME
+                        "longtitude": e.longtitude,
+                        "latitude": e.latitude,
+                        "pmdata": e.pmdata,
+                        "timestamp": e.timestamp,
+                        "humiditydata": e.humiditydata,
+                        "temporarydata": e.temporarydata,
+                        "lightdata": e.lightdata
                     })
                 }
             });

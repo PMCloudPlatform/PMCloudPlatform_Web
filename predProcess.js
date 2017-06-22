@@ -23,6 +23,18 @@ pred.runPrediction = function(lot, lat, time, callback) {
     data[2] = data[2] / 180;
     data[3] = lot;
     data[3] = data[3] / 360;
+    data[4] = 0;
+    data[5] = 0;
+    data[6] = 0;
+    // 只是为了完成格式
+    data[7] = 0;
+    data[8] = 0;
+    data[9] = 0;
+    data[10] = 0;
+    data[11] = 0;
+    data[12] = 0;
+    data[13] = 0;
+    data[14] = 0;
     // pred.lock = true;
     fs.writeFileSync(dataSetFile, data.join(",") + '\n');
     if (pred.lock == true) {
