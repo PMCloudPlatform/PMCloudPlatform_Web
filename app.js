@@ -144,7 +144,7 @@ io.on('connection', function(socket) {
         socket.on('requireData', function(index) {
             console.log('requiring data~~~');
             var Data = [];
-            var speed = 50;
+            var speed = 5;
             db.findData({}, index * speed, speed, function(err, result) {
                 // console.log(result);
                 // console.log(err);
@@ -177,8 +177,8 @@ io.on('connection', function(socket) {
                         }
                     }
                     // console.log(Data);
-                    socket.emit("test");
-                    // socket.emit('dataArrive', JSON.stringify(Data));
+                    // socket.emit("test");
+                    socket.emit('dataArrive', Data);
                 }
             });
         });
