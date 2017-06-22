@@ -19,7 +19,6 @@ function comm(req, res, next) {
 function runPredict(req, res, next) {
     pred.runPrediction(Number(req.query.lot), Number(req.query.lat), Number(req.query.time), setResult);
     res.send("请稍等...");
-
 };
 
 function setResult(err, data) {

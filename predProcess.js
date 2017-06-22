@@ -41,15 +41,15 @@ pred.runPrediction = function(lot, lat, time, callback) {
         var begin = setInterval(function() {
             if (pred.lock == false) {
                 clearInterval(begin);
-                runPredExec();
+                runPredExec(callback);
             }
         }, 1000);
     } else {
-        runPredExec();
+        runPredExec(callback);
     }
 }
 
-function runPredExec() {
+function runPredExec(callback) {
     pred.lock = true;
     console.log("predict begin");
     // run the NN trainer
