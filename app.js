@@ -165,13 +165,13 @@ io.on('connection', function(socket) {
                                 },
                                 "properties": {
                                     "size": e.pmdata,
-                                    "description": `<strong>环境数据 from ${e.username}</strong><p>经度:` + e.longtitude.toString() + '</p>\
-                                        <p>纬度:' + e.latitude.toString() + '</p>\
+                                    "description": `<strong>Environment from ${e.username}</strong><p>longtitude:` + e.longtitude.toString() + '</p>\
+                                        <p>latitude:' + e.latitude.toString() + '</p>\
                                         <p>time:' + Date(e.timestamp).toString() + '</p>\
                                         <p>PM2.5:' + e.pmdata.toString() + '</p>\
-                                        <p>湿度:' + e.humiditydata.toString() + '</p>\
-                                        <p>温度:' + e.temporarydata.toString() + '</p>\
-                                        <p>光照:' + e.lightdata.toString() + '</p>'
+                                        <p>humidity:' + e.humiditydata.toString() + '</p>\
+                                        <p>temp:' + e.temporarydata.toString() + '</p>\
+                                        <p>light:' + e.lightdata.toString() + '</p>'
                                 }
                             })
                         }
